@@ -1,0 +1,8 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=1239
+
+This is a syntax file for AutoIt v3, available from http://www.autoitscript.com/autoit3/.
+
+This is an updated version of Riccardo Casini's original script:
+http://www.vim.org/scripts/script.php?script_id=968
+
+Version 1.5 is included with the official Vim distribution beginning with version 7.1, but I will continue to update the syntax file as necessary for future versions of AutoIt.  These updates, along with change details, will be posted here.
