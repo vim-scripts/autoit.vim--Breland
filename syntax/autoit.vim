@@ -2,7 +2,9 @@
 
 " Language:		AutoIt from www.autoitscript.com
 " Maintainer:	Riccardo Casini <ric@libero.it>
-" ChangeLog:	v1.3 05/13/06 by Jared Breland <jbreland@legroom.net>
+" ChangeLog:	v1.4 08/27/06 by Jared Breland <jbreland@legroom.net>
+" 					update for AutoIt 3.2.0.1
+" 				v1.3 05/13/06 by Jared Breland <jbreland@legroom.net>
 " 					update for AutoIt 3.1.1.123-beta
 " 					added Styles section
 " 					added Constants section
@@ -50,7 +52,7 @@ sy keyword au3Keyword Func ByRef EndFunc Return OnAutoItStart OnAutoItExit
 " environment management
 sy keyword au3Function ClipGet ClipPut EnvGet EnvSet EnvUpdate MemGetStats
 " file, directory, and disk management
-sy keyword au3Function ConsoleRead ConsoleWriteError
+sy keyword au3Function ConsoleRead ConsoleWrite ConsoleWriteError
 sy keyword au3Function DirCopy DirCreate DirGetSize DirMove DirRemove
 sy keyword au3Function DriveGetDrive DriveGetFileSystem DriveGetLabel
 	\ DriveGetSerial DriveGetType DriveMapAdd DriveMapDel DriveMapGet
@@ -100,8 +102,8 @@ sy keyword au3Function InputBox MsgBox ProgressOff ProgressOn ProgressSet
 	\ SplashImageOn SplashOff SplashTextOn ToolTip
 " miscellaneous
 sy keyword au3Function AdlibDisable AdlibEnable AutoItSetOption
-	\ AutoItWinGetTitle AutoItWinSetTitle BlockInput Break Call CDTray
-	\ ConsoleWrite Execute Opt SetError SetExtended
+	\ AutoItWinGetTitle AutoItWinSetTitle BlockInput Break Call CDTray Execute
+	\ Opt SetError SetExtended
 " mouse control
 sy keyword au3Function MouseClick MouseClickDrag MouseDown MouseGetCursor
 	\ MouseGetPos MouseMove MouseUp MouseWheel
@@ -114,18 +116,19 @@ sy keyword au3Function FtpSetProxy HttpSetProxy InetGet InetGetSize Ping
 sy keyword au3Function ObjCreate ObjEvent ObjGet ObjName
 " process management
 sy keyword au3Function DllCall DllClose DllOpen DllStructCreate DllStructGetData
-	\ DllStructGetPtr DllStructGetSize DllStructSetData PluginClose PluginOpen
-	\ ProcessClose ProcessExists ProcessSetPriority ProcessList ProcessWait
-	\ ProcessWaitClose Run RunAsSet RunWait Shutdown
+	\ DllStructGetPtr DllStructGetSize DllStructSetData ProcessClose
+	\ ProcessExists ProcessSetPriority ProcessList ProcessWait ProcessWaitClose
+	\ Run RunAsSet RunWait Shutdown
+	" removed from 3.2.0 docs - PluginClose PluginOpen
 " registry management
 sy keyword au3Function RegDelete RegEnumKey RegEnumVal RegRead RegWrite
 " string management
 sy keyword au3Function StringAddCR StringFormat StringInStr StringIsAlNum
 	\ StringIsAlpha StringIsASCII StringIsDigit StringIsFloat StringIsInt
 	\ StringIsLower StringIsSpace StringIsUpper StringIsXDigit StringLeft
-	\ StringLen StringLower StringMid StringRegExp StringRegExpReplace
-	\ StringReplace StringRight StringSplit StringStripCR StringStripWS
-	\ StringTrimLeft StringTrimRight StringUpper
+	\ StringLen StringLower StringMid StringReplace StringRight StringSplit
+	\ StringStripCR StringStripWS StringTrimLeft StringTrimRight StringUpper
+	" removed from 3.2.0 docs - StringRegExp StringRegExpReplace
 " timer and delay
 sy keyword au3Function Sleep TimerInit TimerDiff
 " tray
@@ -138,16 +141,16 @@ sy keyword au3Function Asc Assign Binary Chr Dec Eval Hex HWnd Int IsAdmin
 	\ IsArray IsBinaryString IsBool IsDeclared IsFloat IsHWnd IsInt IsKeyword
 	\ IsNumber IsObj IsString Number String UBound
 " window management
-sy keyword au3Function ControlClick ControlCommand ControlDisable ControlEnable
-	\ ControlFocus ControlGetFocus ControlGetHandle ControlGetPos
-	\ ControlGetText ControlHide ControlListView ControlMove ControlSend
-	\ ControlSetText ControlShow StatusBarGetText
 sy keyword au3Function WinActivate WinActive WinClose WinExists WinFlash
 	\ WinGetCaretPos WinGetClassList WinGetClientSize WinGetHandle WinGetPos
 	\ WinGetProcess WinGetState WinGetText WinGetTitle WinKill WinList
 	\ WinMenuSelectItem WinMinimizeAll WinMinimizeAllUndo WinMove WinSetOnTop
 	\ WinSetState WinSetTitle WinSetTrans WinWait WinWaitActive WinWaitClose
 	\ WinWaitNotActive
+sy keyword au3Function ControlClick ControlCommand ControlDisable ControlEnable
+	\ ControlFocus ControlGetFocus ControlGetHandle ControlGetPos
+	\ ControlGetText ControlHide ControlListView ControlMove ControlSend
+	\ ControlSetText ControlShow StatusBarGetText
 
 " user defined functions
 " array
@@ -161,8 +164,8 @@ sy keyword au3Function _ColorgetBlue _ColorGetGreen _ColorGetRed
 sy keyword au3Function _DateAdd _DateDayOfWeek _DateDaysInMonth _DateDiff
 	\ _DateIsLeapYear _DateIsValid _DateTimeFormat _DateTimeSplit
 	\ _DateToDayOfWeek _ToDayOfWeekISO _DateToDayValue _DayValueToDate _Now
-	\ _NowCalc _NowCalcDate _NowDate _NowTime _TicksToTime  _TimeToTicks
-	\ _WeekNumberISO
+	\ _NowCalc _NowCalcDate _NowDate _NowTime _SetDate _SetTime _TicksToTime
+	\ _TimeToTicks _WeekNumberISO
 " file
 sy keyword au3Function _FileCountLines _FileCreate _FileListToArray _FilePrint
 	\ _FileReadToArray _FileWriteFromArray _FileWriteLog _FileWriteToLine
@@ -268,14 +271,29 @@ sy keyword au3Function _GUICtrlTreeViewDeleteAllItems _GUICtrlTreeViewDeleteItem
 	\ _GUICtrlTreeViewSetLineColor GUICtrlTreeViewSetState
 	\ _GUICtrlTreeViewSetText _GUICtrlTreeViewSetTextColor
 	\ _GUICtrlTreeViewSort
+" ie
+sy keyword au3Function _IE_Example _IE_Introduction _IE_VersionInfo _IEAction
+	\ _IEAttach _IEBodyReadHTML _IEBodyReadText _IEBodyWriteHTML _IECreate
+	\ _IECreateEmbedded _IEDocGetObj _IEDocReadHTML _IEDocWriteHTML
+	\ _IEErrorHandlerDeRegister _IEErrorHandlerRegister _IEErrorNotify
+	\ _IEFormElementCheckboxSelect _IEFormElementGetCollection
+	\ _IEFormElementGetObjByName _IEFormElementGetValue
+	\ _IEFormElementOptionSelect _IEFormElementRadioSelect
+	\ _IEFormElementSetValue _IEFormGetCollection _IEFormGetObjByName
+	\ _IEFormImageClick _IEFormReset _IEFormSubmit _IEFrameGetCollection
+	\ _IEFrameGetObjByName _IEGetObjByName _IEHeadInsertEventScript _IEImgClick
+	\ _IEImgGetCollection _IEIsFrameSet _IELinkClickByIndex _IELinkClickByText
+	\ _IELinkGetCollection _IELoadWait _IELoadWaitTimeout _IENavigate
+	\ _IEPropertyGet _IEPropertySet _IEQuit _IETableGetCollection
+	\ _IETableWriteToArray _IETagNameAllGetCollection _IETagNameGetCollection
 " inet
 sy keyword au3Function _GetIP _INetExplorerCapable _INetGetSource _INetMail
 	\ _INetSmtpMail
 " math
 sy keyword au3Function _Degree _MathCheckDiv _Max _Min _Radian
 " miscellaneous
-sy keyword au3Function _ChooseColor _ChooseFont _Iif _IsPressed _MouseTrap
-	\ _Singleton
+sy keyword au3Function _ChooseColor _ChooseFont _ClipPutFile _Iif _IsPressed
+	\ _MouseTrap _Singleton
 " process
 sy keyword au3Function _ProcessGetName _ProcessGetPriority _RunDOS
 " string
@@ -290,8 +308,8 @@ sy match au3Builtin "@AppData\(Common\)\=Dir"
 sy match au3Builtin "@AutoItExe"
 sy match au3Builtin "@AutoItPID"
 sy match au3Builtin "@AutoItVersion"
-sy match au3Builtin "@CommonFilesDir"
 sy match au3Builtin "@COM_EventObj"
+sy match au3Builtin "@CommonFilesDir"
 sy match au3Builtin "@Compiled"
 sy match au3Builtin "@ComputerName"
 sy match au3Builtin "@ComSpec"
@@ -518,6 +536,8 @@ sy match au3Send "{MEDIA_STOP}" contained
 sy match au3Send "{MEDIA_PLAY_PAUSE}" contained
 sy match au3Send "{LAUNCH_MAIL}" contained
 sy match au3Send "{LAUNCH_MEDIA}" contained
+sy match au3Send "{LAUNCH_APP1}" contained
+sy match au3Send "{LAUNCH_APP2}" contained
 
 "this was tricky!
 "we use an oneline region, instead of a match, in order to use skip=
