@@ -1,80 +1,84 @@
 " Vim syntax file
-
-" Language:		AutoIt from www.autoitscript.com
-" Maintainer:	Riccardo Casini <ric@libero.it>
-" ChangeLog:	v1.4 08/27/06 by Jared Breland <jbreland@legroom.net>
-" 					update for AutoIt 3.2.0.1
-" 				v1.3 05/13/06 by Jared Breland <jbreland@legroom.net>
-" 					update for AutoIt 3.1.1.123-beta
-" 					added Styles section
-" 					added Constants section
-" 					added Send Key section
-" 					changed variable formatting to match PHP style
-" 						(to better distinguish between user vars and built-ins)
-"				v1.2 10/07/05 by Jared Breland <jbreland@legroom.net>
-" 					update for AutoIt 3.1.1.78-beta
-" 					added Options section
-" 				v1.1 03/15/05 by Jared Breland <jbreland@legroom.net>
-" 					updated for AutoIt 3.1.0
+"
+" Language:	AutoIt v3 (http://www.autoitscript.com/autoit3/)
+" Maintainer:	Jared Breland <jbreland@legroom.net>
+" Authored By:	Riccardo Casini <ric@libero.it>
+" URL:		http://www.vim.org/scripts/script.php?script_id=1239
+" ChangeLog:	Please visit the script URL for detailed change information
+" 	v1.5 01/10/07 by Jared Breland <jbreland@legroom.net>
+" 		updated for AutoIt 3.2.2.0
+" 		updated constant and option strings to recognize ' and " quotes
+" 		more cleanup for inclusion in Vim distribution
+" 	v1.4 08/27/06 by Jared Breland <jbreland@legroom.net>
+" 		update for AutoIt 3.2.0.1
+" 		cleanup for inclusion in Vim distribution
+" 	v1.3 05/13/06 by Jared Breland <jbreland@legroom.net>
+" 		update for AutoIt 3.1.1.123-beta
+" 		added Styles section
+" 		added Constants section
+" 		added Send Key section
+" 		changed variable formatting to match PHP style
+" 		(to better distinguish between user vars and built-ins)
+"	v1.2 10/07/05 by Jared Breland <jbreland@legroom.net>
+" 		update for AutoIt 3.1.1.78-beta
+" 		added Options section
+" 	v1.1 03/15/05 by Jared Breland <jbreland@legroom.net>
+" 		updated for AutoIt 3.1.0
 
 " used inside floating points
-se iskeyword+=.
-se iskeyword+=+
-
-" Force definition of command HiLink, to assimilate from_group to to_group
-" highlighting, only when an item doesn't have highlighting yet
-com! -nargs=+ HiLink hi def link <args>
+"setl iskeyword+=.
+"setl iskeyword+=+
 
 " AutoIt is not case dependent
-sy case ignore
+syn case ignore
 
 " Definitions for AutoIt reserved keywords
-sy keyword au3keyword Default False True
-sy keyword au3Keyword Const Dim Global Local ReDim
-sy keyword au3Keyword If Else ElseIf Then EndIf
-sy keyword au3Keyword Select Switch Case EndSelect EndSwitch
-sy keyword au3Keyword Enum For In To Step Next
-sy keyword au3Keyword With While EndWith Wend
-sy keyword au3Keyword Do Until
-sy keyword au3Keyword ContinueCase ContinueLoop ExitLoop Exit
+syn keyword autoitKeyword Default False True
+syn keyword autoitKeyword Const Dim Global Local ReDim
+syn keyword autoitKeyword If Else ElseIf Then EndIf
+syn keyword autoitKeyword Select Switch Case EndSelect EndSwitch
+syn keyword autoitKeyword Enum For In To Step Next
+syn keyword autoitKeyword With While EndWith Wend Do Until
+syn keyword autoitKeyword ContinueCase ContinueLoop ExitLoop Exit
 
 " inside script inclusion and global options
-sy match au3Included display contained "<[^>]*>"
-sy match au3Include	display "^\s*#\s*include\>\s*["<]"
-	\ contains=au3Included,au3String
-sy match au3Include "^\s*#include-once\>"
-sy match au3Include "^\s*#NoTrayIcon\>"
+syn match autoitIncluded display contained "<[^>]*>"
+syn match autoitInclude	display "^\s*#\s*include\>\s*["<]"
+	\ contains=autoitIncluded,autoitString
+syn match autoitInclude "^\s*#include-once\>"
+syn match autoitInclude "^\s*#NoTrayIcon\>"
+syn match autoitInclude "^\s*#RequireAdmin\>"
 
 " user-defined functions
-sy keyword au3Keyword Func ByRef EndFunc Return OnAutoItStart OnAutoItExit
+syn keyword autoitKeyword Func ByRef EndFunc Return OnAutoItStart OnAutoItExit
 
 " built-in functions
 " environment management
-sy keyword au3Function ClipGet ClipPut EnvGet EnvSet EnvUpdate MemGetStats
+syn keyword autoitFunction ClipGet ClipPut EnvGet EnvSet EnvUpdate MemGetStats
 " file, directory, and disk management
-sy keyword au3Function ConsoleRead ConsoleWrite ConsoleWriteError
-sy keyword au3Function DirCopy DirCreate DirGetSize DirMove DirRemove
-sy keyword au3Function DriveGetDrive DriveGetFileSystem DriveGetLabel
+syn keyword autoitFunction ConsoleRead ConsoleWrite ConsoleWriteError
+syn keyword autoitFunction DirCopy DirCreate DirGetSize DirMove DirRemove
+syn keyword autoitFunction DriveGetDrive DriveGetFileSystem DriveGetLabel
 	\ DriveGetSerial DriveGetType DriveMapAdd DriveMapDel DriveMapGet
 	\ DriveSetLabel DriveSpaceFree DriveSpaceTotal DriveStatus
-sy keyword au3Function FileChangeDir FileClose FileCopy FileCreateNTFSLink
+syn keyword autoitFunction FileChangeDir FileClose FileCopy FileCreateNTFSLink
 	\ FileCreateShortcut FileDelete FileExists FileFindFirstFile
 	\ FileFindNextFile FileGetAttrib FileGetLongName FileGetShortcut
 	\ FileGetShortName FileGetSize FileGetTime FileGetVersion FileInstall
 	\ FileMove FileOpen FileOpenDialog FileRead FileReadLine FileRecycle
 	\ FileRecycleEmpty FileSaveDialog FileSelectFolder FileSetAttrib
 	\ FileSetTime FileWrite FileWriteLine
-sy keyword au3Function IniDelete IniRead IniReadSection IniReadSectionNames
-	\ IniRenameSection IniWrite
-sy keyword au3Function StderrRead StdinWrite StdoutRead
+syn keyword autoitFunction IniDelete IniRead IniReadSection IniReadSectionNames
+	\ IniRenameSection IniWrite IniWriteSection
+syn keyword autoitFunction StderrRead StdinWrite StdoutRead
 " graphic and sound
-sy keyword au3Function Beep PixelChecksum PixelGetColor PixelSearch SoundPlay
-	\ SoundSetWaveVolume
+syn keyword autoitFunction Beep PixelChecksum PixelGetColor PixelSearch
+	\ SoundPlay SoundSetWaveVolume
 " gui reference
-sy keyword au3Function GUICreate GUIDelete GUICtrlGetHandle GUICtrlGetState
+syn keyword autoitFunction GUICreate GUIDelete GUICtrlGetHandle GUICtrlGetState
 	\ GUICtrlRead GUICtrlRecvMsg GUICtrlSendMsg GUICtrlSendToDummy
 	\ GUIGetCursorInfo GUIGetMsg GUIRegisterMsg GUIStartGroup GUISwitch
-sy keyword au3Function GUICtrlCreateAvi GUICtrlCreateButton
+syn keyword autoitFunction GUICtrlCreateAvi GUICtrlCreateButton
 	\ GUICtrlCreateCheckbox GUICtrlCreateCombo GUICtrlCreateContextMenu
 	\ GUICtrlCreateDate GUICtrlCreateDummy GUICtrlCreateEdit
 	\ GUICtrlCreateGraphic GUICtrlCreateGroup GUICtrlCreateIcon
@@ -85,93 +89,97 @@ sy keyword au3Function GUICtrlCreateAvi GUICtrlCreateButton
 	\ GUICtrlCreateSlider GUICtrlCreateTab GUICtrlCreateTabItem
 	\ GUICtrlCreateTreeView GUICtrlCreateTreeViewItem
 	\ GUICtrlCreateUpDown GUICtrlDelete
-sy keyword au3Function GUICtrlRegisterListViewSort GUICtrlSetBkColor
+syn keyword autoitFunction GUICtrlRegisterListViewSort GUICtrlSetBkColor
 	\ GUICtrlSetColor GUICtrlSetCursor GUICtrlSetData GUICtrlSetFont
 	\ GUICtrlSetGraphic GUICtrlSetImage GUICtrlSetLimit GUICtrlSetOnEvent
 	\ GUICtrlSetPos GUICtrlSetResizing GUICtrlSetState GUICtrlSetStyle
 	\ GUICtrlSetTip
-sy keyword au3Function GUISetBkColor GUISetCoord GUISetCursor GUISetFont
+syn keyword autoitFunction GUISetBkColor GUISetCoord GUISetCursor GUISetFont
 	\ GUISetHelp GUISetIcon GUISetOnEvent GUISetState
 " keyboard control
-sy keyword au3Function HotKeySet Send
+syn keyword autoitFunction HotKeySet Send
 " math
-sy keyword au3Function Abs ACos ASin ATan BitAND BitNOT BitOR BitRotate BitShift
-	\ BitXOR Cos Ceiling Exp Floor Log Mod Random Round Sin Sqrt Tan
+syn keyword autoitFunction Abs ACos ASin ATan BitAND BitNOT BitOR BitRotate
+	\ BitShift BitXOR Cos Ceiling Exp Floor Log Mod Random Round Sin Sqrt
+	\ SRandom Tan
 " message boxes and dialogs
-sy keyword au3Function InputBox MsgBox ProgressOff ProgressOn ProgressSet
+syn keyword autoitFunction InputBox MsgBox ProgressOff ProgressOn ProgressSet
 	\ SplashImageOn SplashOff SplashTextOn ToolTip
 " miscellaneous
-sy keyword au3Function AdlibDisable AdlibEnable AutoItSetOption
-	\ AutoItWinGetTitle AutoItWinSetTitle BlockInput Break Call CDTray Execute
-	\ Opt SetError SetExtended
+syn keyword autoitFunction AdlibDisable AdlibEnable AutoItSetOption
+	\ AutoItWinGetTitle AutoItWinSetTitle BlockInput Break Call CDTray
+	\ Execute Opt SetError SetExtended
 " mouse control
-sy keyword au3Function MouseClick MouseClickDrag MouseDown MouseGetCursor
+syn keyword autoitFunction MouseClick MouseClickDrag MouseDown MouseGetCursor
 	\ MouseGetPos MouseMove MouseUp MouseWheel
 " network
-sy keyword au3Function FtpSetProxy HttpSetProxy InetGet InetGetSize Ping
+syn keyword autoitFunction FtpSetProxy HttpSetProxy InetGet InetGetSize Ping
 	\ TCPAccept TCPCloseSocket TCPConnect TCPListen TCPNameToIp TCPRecv
 	\ TCPSend TCPShutDown TCPStartup UDPBind UDPCloseSocket UDPOpen UDPRecv
 	\ UDPSend UDPShutdown UDPStartup
 " obj/com reference
-sy keyword au3Function ObjCreate ObjEvent ObjGet ObjName
+syn keyword autoitFunction ObjCreate ObjEvent ObjGet ObjName
 " process management
-sy keyword au3Function DllCall DllClose DllOpen DllStructCreate DllStructGetData
-	\ DllStructGetPtr DllStructGetSize DllStructSetData ProcessClose
-	\ ProcessExists ProcessSetPriority ProcessList ProcessWait ProcessWaitClose
-	\ Run RunAsSet RunWait Shutdown
+syn keyword autoitFunction DllCall DllClose DllOpen DllStructCreate
+	\ DllStructGetData DllStructGetPtr DllStructGetSize DllStructSetData
+	\ ProcessClose ProcessExists ProcessSetPriority ProcessList ProcessWait
+	\ ProcessWaitClose Run RunAsSet RunWait ShellExecute ShellExecuteWait
+	\ Shutdown
 	" removed from 3.2.0 docs - PluginClose PluginOpen
 " registry management
-sy keyword au3Function RegDelete RegEnumKey RegEnumVal RegRead RegWrite
+syn keyword autoitFunction RegDelete RegEnumKey RegEnumVal RegRead RegWrite
 " string management
-sy keyword au3Function StringAddCR StringFormat StringInStr StringIsAlNum
+syn keyword autoitFunction StringAddCR StringFormat StringInStr StringIsAlNum
 	\ StringIsAlpha StringIsASCII StringIsDigit StringIsFloat StringIsInt
 	\ StringIsLower StringIsSpace StringIsUpper StringIsXDigit StringLeft
-	\ StringLen StringLower StringMid StringReplace StringRight StringSplit
-	\ StringStripCR StringStripWS StringTrimLeft StringTrimRight StringUpper
-	" removed from 3.2.0 docs - StringRegExp StringRegExpReplace
+	\ StringLen StringLower StringMid StringRegExp StringRegExpReplace
+	\ StringReplace StringRight StringSplit StringStripCR StringStripWS
+	\ StringTrimLeft StringTrimRight StringUpper
 " timer and delay
-sy keyword au3Function Sleep TimerInit TimerDiff
+syn keyword autoitFunction Sleep TimerInit TimerDiff
 " tray
-sy keyword au3Function TrayCreateItem TrayCreateMenu TrayItemDelete
+syn keyword autoitFunction TrayCreateItem TrayCreateMenu TrayItemDelete
 	\ TrayItemGetHandle TrayItemGetState TrayItemGetText TrayItemSetOnEvent
 	\ TrayItemSetState TrayItemSetText TrayGetMsg TraySetClick TraySetIcon
 	\ TraySetOnEvent TraySetPauseIcon TraySetState TraySetToolTip TrayTip
 " variables and conversions
-sy keyword au3Function Asc Assign Binary Chr Dec Eval Hex HWnd Int IsAdmin
-	\ IsArray IsBinaryString IsBool IsDeclared IsFloat IsHWnd IsInt IsKeyword
-	\ IsNumber IsObj IsString Number String UBound
+syn keyword autoitFunction Asc Assign Binary Chr Dec Eval Hex HWnd Int IsAdmin
+	\ IsArray IsBinaryString IsBool IsDeclared IsDllStruct IsFloat IsHWnd
+	\ IsInt IsKeyword IsNumber IsObj IsString Number String UBound
 " window management
-sy keyword au3Function WinActivate WinActive WinClose WinExists WinFlash
+syn keyword autoitFunction WinActivate WinActive WinClose WinExists WinFlash
 	\ WinGetCaretPos WinGetClassList WinGetClientSize WinGetHandle WinGetPos
 	\ WinGetProcess WinGetState WinGetText WinGetTitle WinKill WinList
-	\ WinMenuSelectItem WinMinimizeAll WinMinimizeAllUndo WinMove WinSetOnTop
-	\ WinSetState WinSetTitle WinSetTrans WinWait WinWaitActive WinWaitClose
-	\ WinWaitNotActive
-sy keyword au3Function ControlClick ControlCommand ControlDisable ControlEnable
-	\ ControlFocus ControlGetFocus ControlGetHandle ControlGetPos
-	\ ControlGetText ControlHide ControlListView ControlMove ControlSend
-	\ ControlSetText ControlShow StatusBarGetText
+	\ WinMenuSelectItem WinMinimizeAll WinMinimizeAllUndo WinMove
+	\ WinSetOnTop WinSetState WinSetTitle WinSetTrans WinWait WinWaitActive
+	\ WinWaitClose WinWaitNotActive
+syn keyword autoitFunction ControlClick ControlCommand ControlDisable
+	\ ControlEnable ControlFocus ControlGetFocus ControlGetHandle
+	\ ControlGetPos ControlGetText ControlHide ControlListView ControlMove
+	\ ControlSend ControlSetText ControlShow StatusBarGetText
 
 " user defined functions
 " array
-sy keyword au3Function _ArrayAdd _ArrayBinarySearch _ArrayCreate _ArrayDelete
-	\ _ArrayDisplay _ArrayInsert _ArrayMax _ArrayMaxIndex _ArrayMin
-	\ _ArrayMinIndex _ArrayPop _ArrayPush _ArrayReverse _ArraySearch _ArraySort
-	\ _ArraySwap _ArrayToClip _ArrayToString _ArrayTrim
+syn keyword autoitFunction _ArrayAdd _ArrayBinarySearch _ArrayCreate
+	\ _ArrayDelete _ArrayDisplay _ArrayInsert _ArrayMax _ArrayMaxIndex
+	\ _ArrayMin _ArrayMinIndex _ArrayPop _ArrayPush _ArrayReverse
+	\ _ArraySearch _ArraySort _ArraySwap _ArrayToClip _ArrayToString
+	\ _ArrayTrim
 " color
-sy keyword au3Function _ColorgetBlue _ColorGetGreen _ColorGetRed
+syn keyword autoitFunction _ColorgetBlue _ColorGetGreen _ColorGetRed
 " date
-sy keyword au3Function _DateAdd _DateDayOfWeek _DateDaysInMonth _DateDiff
+syn keyword autoitFunction _DateAdd _DateDayOfWeek _DateDaysInMonth _DateDiff
 	\ _DateIsLeapYear _DateIsValid _DateTimeFormat _DateTimeSplit
 	\ _DateToDayOfWeek _ToDayOfWeekISO _DateToDayValue _DayValueToDate _Now
 	\ _NowCalc _NowCalcDate _NowDate _NowTime _SetDate _SetTime _TicksToTime
 	\ _TimeToTicks _WeekNumberISO
 " file
-sy keyword au3Function _FileCountLines _FileCreate _FileListToArray _FilePrint
-	\ _FileReadToArray _FileWriteFromArray _FileWriteLog _FileWriteToLine
-	\ _PathFull _PathMake _PathSplit _ReplaceStringInFile _TempFile
+syn keyword autoitFunction _FileCountLines _FileCreate _FileListToArray
+	\ _FilePrint _FileReadToArray _FileWriteFromArray _FileWriteLog
+	\ _FileWriteToLine _PathFull _PathMake _PathSplit _ReplaceStringInFile
+	\ _TempFile
 " guicombo
-sy keyword au3Function _GUICtrlComboAddDir _GUICtrlComboAddString
+syn keyword autoitFunction _GUICtrlComboAddDir _GUICtrlComboAddString
 	\ _GUICtrlComboAutoComplete _GUICtrlComboDeleteString
 	\ _GUICtrlComboFindString _GUICtrlComboGetCount _GUICtrlComboGetCurSel
 	\ _GUICtrlComboGetDroppedControlRect _GUICtrlComboGetDroppedState
@@ -180,38 +188,49 @@ sy keyword au3Function _GUICtrlComboAddDir _GUICtrlComboAddString
 	\ _GUICtrlComboGetItemHeight _GUICtrlComboGetLBText
 	\ _GUICtrlComboGetLBTextLen _GUICtrlComboGetList _GUICtrlComboGetLocale
 	\ _GUICtrlComboGetMinVisible _GUICtrlComboGetTopIndex
-	\ _GUICtrlComboInitStorage _GUICtrlComboInsertString _GUICtrlComboLimitText
-	\ _GUICtrlComboResetContent _GUICtrlComboSelectString _GUICtrlComboSetCurSel
+	\ _GUICtrlComboInitStorage _GUICtrlComboInsertString
+	\ _GUICtrlComboLimitText _GUICtrlComboResetContent
+	\ _GUICtrlComboSelectString _GUICtrlComboSetCurSel
 	\ _GUICtrlComboSetDroppedWidth _GUICtrlComboSetEditSel
 	\ _GUICtrlComboSetExtendedUI _GUICtrlComboSetHorizontalExtent
 	\ _GUICtrlComboSetItemHeight _GUICtrlComboSetMinVisible
 	\ _GUICtrlComboSetTopIndex _GUICtrlComboShowDropDown
 " guiedit
-sy keyword au3Function _GUICtrlEditCanUndo _GUICtrlEditEmptyUndoBuffer
-	\ _GuiCtrlEditFind _GUICtrlEditGetFirstVisibleLine _GUICtrlEditGetLineCount
-	\ _GUICtrlEditGetModify _GUICtrlEditGetRECT _GUICtrlEditGetSel
-	\ _GUICtrlEditLineFromChar _GUICtrlEditLineIndex _GUICtrlEditLineLength
-	\ _GUICtrlEditLineScroll _GUICtrlEditReplaceSel _GUICtrlEditScroll
-	\ _GUICtrlEditSetModify _GUICtrlEditSetRECT _GUICtrlEditSetSel
-	\ _GUICtrlEditUndo
+syn keyword autoitFunction _GUICtrlEditCanUndo _GUICtrlEditEmptyUndoBuffer
+	\ _GuiCtrlEditFind _GUICtrlEditGetFirstVisibleLine _GUICtrlEditGetLine
+	\ _GUICtrlEditGetLineCount _GUICtrlEditGetModify _GUICtrlEditGetRect
+	\ _GUICtrlEditGetSel _GUICtrlEditLineFromChar _GUICtrlEditLineIndex
+	\ _GUICtrlEditLineLength _GUICtrlEditLineScroll _GUICtrlEditReplaceSel
+	\ _GUICtrlEditScroll _GUICtrlEditSetModify _GUICtrlEditSetRect
+	\ _GUICtrlEditSetSel _GUICtrlEditUndo
+" guiipaddress
+syn keyword autoitFunction _GUICtrlIpAddressClear _GUICtrlIpAddressCreate
+	\ _GUICtrlIpAddressDelete _GUICtrlIpAddressGet _GUICtrlIpAddressIsBlank
+	\ _GUICtrlIpAddressSet _GUICtrlIpAddressSetFocus
+	\ _GUICtrlIpAddressSetFont
+	\ _GUICtrlIpAddressSetRange _GUICtrlIpAddressShowHide
 " guilist
-sy keyword au3Function _GUICtrlListAddDir _GUICtrlListAddItem _GUICtrlListClear
+syn keyword autoitFunction _GUICtrlListAddDir _GUICtrlListAddItem
+	\ _GUICtrlListClear
 	\ _GUICtrlListCount _GUICtrlListDeleteItem _GUICtrlListFindString
 	\ _GUICtrlListGetAnchorIndex _GUICtrlListGetCaretIndex
 	\ _GUICtrlListGetHorizontalExtent _GUICtrlListGetInfo
 	\ _GUICtrlListGetItemRect _GUICtrlListGetLocale _GUICtrlListGetSelCount
 	\ _GUICtrlListGetSelItems _GUICtrlListGetSelItemsText
 	\ _GUICtrlListGetSelState _GUICtrlListGetText _GUICtrlListGetTextLen
-	\ _GUICtrlListGetTopIndex _GUICtrlListInsertItem _GUICtrlListReplaceString
-	\ _GUICtrlListSelectedIndex _GUICtrlListSelectIndex _GUICtrlListSelectString
+	\ _GUICtrlListGetTopIndex _GUICtrlListInsertItem
+	\ _GUICtrlListReplaceString _GUICtrlListSelectedIndex
+	\ _GUICtrlListSelectIndex _GUICtrlListSelectString
 	\ _GUICtrlListSelItemRange _GUICtrlListSelItemRangeEx
 	\ _GUICtrlListSetAnchorIndex _GUICtrlListSetCaretIndex
-	\ _GUICtrlListSetHorizontalExtent _GUICtrlListSetLocale _GUICtrlListSetSel
-	\ _GUICtrlListSetTopIndex _GUICtrlListSort _GUICtrlListSwapString
+	\ _GUICtrlListSetHorizontalExtent _GUICtrlListSetLocale
+	\ _GUICtrlListSetSel _GUICtrlListSetTopIndex _GUICtrlListSort
+	\ _GUICtrlListSwapString
 " guilistview
-sy keyword au3Function _GUICtrlListViewCopyItems _GUICtrlListViewDeleteAllItems
-	\ _GUICtrlListViewDeleteColumn _GUICtrlListViewDeleteItem
-	\ _GUICtrlListViewDeleteItemsSelected _GUICtrlListViewEnsureVisible
+syn keyword autoitFunction _GUICtrlListViewCopyItems
+	\ _GUICtrlListViewDeleteAllItems _GUICtrlListViewDeleteColumn
+	\ _GUICtrlListViewDeleteItem _GUICtrlListViewDeleteItemsSelected
+	\ _GUICtrlListViewEnsureVisible _GUICtrlListViewFindItem
 	\ _GUICtrlListViewGetBackColor _GUICtrlListViewGetCallBackMask
 	\ _GUICtrlListViewGetCheckedState _GUICtrlListViewGetColumnOrder
 	\ _GUICtrlListViewGetColumnWidth _GUICtrlListViewGetCounterPage
@@ -231,37 +250,43 @@ sy keyword au3Function _GUICtrlListViewCopyItems _GUICtrlListViewDeleteAllItems
 	\ _GUICtrlListViewSetItemCount _GUICtrlListViewSetItemSelState
 	\ _GUICtrlListViewSetItemText _GUICtrlListViewSort
 " guimonthcal
-sy keyword au3Function _GUICtrlMonthCalGet1stDOW _GUICtrlMonthCalGetColor
+syn keyword autoitFunction _GUICtrlMonthCalGet1stDOW _GUICtrlMonthCalGetColor
 	\ _GUICtrlMonthCalGetDelta _GUICtrlMonthCalGetMaxSelCount
-	\ _GUICtrlMonthCalGetMaxTodayWidth _GUICtrlMonthCalGetMinReqRECT
+	\ _GUICtrlMonthCalGetMaxTodayWidth _GUICtrlMonthCalGetMinReqRect
 	\ _GUICtrlMonthCalSet1stDOW _GUICtrlMonthCalSetColor
 	\ _GUICtrlMonthCalSetDelta _GUICtrlMonthCalSetMaxSelCount
 " guislider
-sy keyword au3Function _GUICtrlSliderClearTics _GUICtrlSliderGetLineSize
-	\ _GUICtrlSliderGetNumTics _GUICtrlSliderGetPageSize _GUICtrlSliderGetPos
-	\ _GUICtrlSliderGetRangeMax _GUICtrlSliderGetRangeMin
-	\ _GUICtrlSliderSetLineSize _GUICtrlSliderSetPageSize _GUICtrlSliderSetPos
+syn keyword autoitFunction _GUICtrlSliderClearTics _GUICtrlSliderGetLineSize
+	\ _GUICtrlSliderGetNumTics _GUICtrlSliderGetPageSize
+	\ _GUICtrlSliderGetPos _GUICtrlSliderGetRangeMax
+	\ _GUICtrlSliderGetRangeMin _GUICtrlSliderSetLineSize
+	\ _GUICtrlSliderSetPageSize _GUICtrlSliderSetPos
 	\ _GUICtrlSliderSetTicFreq
 " guistatusbar
-sy keyword au3Function _GuiCtrlStatusBarCreate _GuiCtrlStatusBarGetBorders
-	\ _GuiCtrlStatusBarGetIcon _GuiCtrlStatusBarGetParts
-	\ _GuiCtrlStatusBarGetRect _GuiCtrlStatusBarGetText
-	\ _GuiCtrlStatusBarGetTextLength _GuiCtrlStatusBarGetTip
-	\ _GuiCtrlStatusBarGetUnicode _GuiCtrlStatusBarResize
+syn keyword autoitFunction _GuiCtrlStatusBarCreate
+	\ _GUICtrlStatusBarCreateProgress _GUICtrlStatusBarDelete
+	\ _GuiCtrlStatusBarGetBorders _GuiCtrlStatusBarGetIcon
+	\ _GuiCtrlStatusBarGetParts _GuiCtrlStatusBarGetRect
+	\ _GuiCtrlStatusBarGetText _GuiCtrlStatusBarGetTextLength
+	\ _GuiCtrlStatusBarGetTip _GuiCtrlStatusBarGetUnicode
+	\ _GUICtrlStatusBarIsSimple _GuiCtrlStatusBarResize
 	\ _GuiCtrlStatusBarSetBKColor _GuiCtrlStatusBarSetIcon
-	\ _GuiCtrlStatusBarSetMinHeight _GuiCtrlStatusBarSetSimple
-	\ _GuiCtrlStatusBarSetText _GuiCtrlStatusBarSetTip
-	\ _GuiCtrlStatusBarSetUnicode 
+	\ _GuiCtrlStatusBarSetMinHeight _GUICtrlStatusBarSetParts
+	\ _GuiCtrlStatusBarSetSimple _GuiCtrlStatusBarSetText
+	\ _GuiCtrlStatusBarSetTip _GuiCtrlStatusBarSetUnicode
+	\ _GUICtrlStatusBarShowHide 
 " guitab
-sy keyword au3Function _GUICtrlTabDeleteAllItems _GUICtrlTabDeleteItem
+syn keyword autoitFunction _GUICtrlTabDeleteAllItems _GUICtrlTabDeleteItem
 	\ _GUICtrlTabDeselectAll _GUICtrlTabGetCurFocus _GUICtrlTabGetCurSel
-	\ _GUICtrlTabGetExtendedStyle _GUICtrlTabGetItemCount _GUICtrlTabGetItemRECT
-	\ _GUICtrlTabGetRowCount _GUICtrlTabGetUnicodeFormat
-	\ _GUICtrlTabHighlightItem _GUICtrlTabSetCurFocus _GUICtrlTabSetCurSel
+	\ _GUICtrlTabGetExtendedStyle _GUICtrlTabGetItemCount
+	\ _GUICtrlTabGetItemRect _GUICtrlTabGetRowCount
+	\ _GUICtrlTabGetUnicodeFormat _GUICtrlTabHighlightItem
+	\ _GUICtrlTabSetCurFocus _GUICtrlTabSetCurSel
 	\ _GUICtrlTabSetMinTabWidth _GUICtrlTabSetUnicodeFormat
 " guitreeview
-sy keyword au3Function _GUICtrlTreeViewDeleteAllItems _GUICtrlTreeViewDeleteItem
-	\ _GUICtrlTreeViewExpand _GUICtrlTreeViewGetBkColor _GUICtrlTreeViewGetCount
+syn keyword autoitFunction _GUICtrlTreeViewDeleteAllItems
+	\ _GUICtrlTreeViewDeleteItem _GUICtrlTreeViewExpand
+	\ _GUICtrlTreeViewGetBkColor _GUICtrlTreeViewGetCount
 	\ _GUICtrlTreeViewGetIndent _GUICtrlTreeViewGetLineColor
 	\ _GUICtrlTreeViewGetParentHandle _GUICtrlTreeViewGetParentID
 	\ _GUICtrlTreeViewGetState _GUICtrlTreeViewGetText
@@ -272,821 +297,838 @@ sy keyword au3Function _GUICtrlTreeViewDeleteAllItems _GUICtrlTreeViewDeleteItem
 	\ _GUICtrlTreeViewSetText _GUICtrlTreeViewSetTextColor
 	\ _GUICtrlTreeViewSort
 " ie
-sy keyword au3Function _IE_Example _IE_Introduction _IE_VersionInfo _IEAction
-	\ _IEAttach _IEBodyReadHTML _IEBodyReadText _IEBodyWriteHTML _IECreate
-	\ _IECreateEmbedded _IEDocGetObj _IEDocReadHTML _IEDocWriteHTML
+syn keyword autoitFunction _IE_Example _IE_Introduction _IE_VersionInfo
+	\ _IEAction _IEAttach _IEBodyReadHTML _IEBodyReadText _IEBodyWriteHTML
+	\ _IECreate _IECreateEmbedded _IEDocGetObj _IEDocInsertHTML
+	\ _IEDocInsertText _IEDocReadHTML _IEDocWriteHTML
 	\ _IEErrorHandlerDeRegister _IEErrorHandlerRegister _IEErrorNotify
 	\ _IEFormElementCheckboxSelect _IEFormElementGetCollection
 	\ _IEFormElementGetObjByName _IEFormElementGetValue
 	\ _IEFormElementOptionSelect _IEFormElementRadioSelect
 	\ _IEFormElementSetValue _IEFormGetCollection _IEFormGetObjByName
 	\ _IEFormImageClick _IEFormReset _IEFormSubmit _IEFrameGetCollection
-	\ _IEFrameGetObjByName _IEGetObjByName _IEHeadInsertEventScript _IEImgClick
-	\ _IEImgGetCollection _IEIsFrameSet _IELinkClickByIndex _IELinkClickByText
-	\ _IELinkGetCollection _IELoadWait _IELoadWaitTimeout _IENavigate
-	\ _IEPropertyGet _IEPropertySet _IEQuit _IETableGetCollection
-	\ _IETableWriteToArray _IETagNameAllGetCollection _IETagNameGetCollection
+	\ _IEFrameGetObjByName _IEGetObjByName _IEHeadInsertEventScript
+	\ _IEImgClick _IEImgGetCollection _IEIsFrameSet _IELinkClickByIndex
+	\ _IELinkClickByText _IELinkGetCollection _IELoadWait _IELoadWaitTimeout
+	\ _IENavigate _IEPropertyGet _IEPropertySet _IEQuit
+	\ _IETableGetCollection _IETableWriteToArray _IETagNameAllGetCollection
+	\  _IETagNameGetCollection
 " inet
-sy keyword au3Function _GetIP _INetExplorerCapable _INetGetSource _INetMail
-	\ _INetSmtpMail
+syn keyword autoitFunction _GetIP _INetExplorerCapable _INetGetSource _INetMail
+	\ _INetSmtpMail _TCPIpToName
 " math
-sy keyword au3Function _Degree _MathCheckDiv _Max _Min _Radian
+syn keyword autoitFunction _Degree _MathCheckDiv _Max _Min _Radian
 " miscellaneous
-sy keyword au3Function _ChooseColor _ChooseFont _ClipPutFile _Iif _IsPressed
-	\ _MouseTrap _Singleton
+syn keyword autoitFunction _ChooseColor _ChooseFont _ClipPutFile _Iif
+	\ _IsPressed _MouseTrap _SendMessage _Singleton
 " process
-sy keyword au3Function _ProcessGetName _ProcessGetPriority _RunDOS
+syn keyword autoitFunction _ProcessGetName _ProcessGetPriority _RunDOS
+" sound
+syn keyword autoitFunction _SoundClose _SoundLength _SoundOpen _SoundPause
+	\ _SoundPlay _SoundPos _SoundResume _SoundSeek _SoundStatus _SoundStop
+" sqlite
+syn keyword autoitFunction _SQLite_Changes _SQLite_Close
+	\ _SQLite_Display2DResult _SQLite_Encode _SQLite_ErrCode _SQLite_ErrMsg
+	\ _SQLite_Escape _SQLite_Exec _SQLite_FetchData _SQLite_FetchNames
+	\ _SQLite_GetTable _SQLite_GetTable2D _SQLite_LastInsertRowID
+	\ _SQLite_LibVersion _SQLite_Open _SQLite_Query _SQLite_QueryFinalize
+	\ _SQLite_QueryReset _SQLite_QuerySingleRow _SQLite_SaveMode
+	\ _SQLite_SetTimeout _SQLite_Shutdown _SQLite_SQLiteExe _SQLite_Startup
+	\ _SQLite_TotalChanges
 " string
-sy keyword au3Function _HexToString _StringEncrypt _StringInsert _StringProper
-	\ _StringRepeat _StringReverse _StringToHex
+syn keyword autoitFunction _HexToString _StringAddComma _StringBetween
+	\ _StringEncrypt _StringInsert _StringProper _StringRepeat
+	\ _StringReverse _StringToHex
 " visa
-sy keyword au3Function _viClose _viExecCommand _viFindGpib _viGpibBusReset
+syn keyword autoitFunction _viClose _viExecCommand _viFindGpib _viGpibBusReset
 	\ _viGTL _viOpen _viSetAttribute _viSetTimeout
 
 " read-only macros
-sy match au3Builtin "@AppData\(Common\)\=Dir"
-sy match au3Builtin "@AutoItExe"
-sy match au3Builtin "@AutoItPID"
-sy match au3Builtin "@AutoItVersion"
-sy match au3Builtin "@COM_EventObj"
-sy match au3Builtin "@CommonFilesDir"
-sy match au3Builtin "@Compiled"
-sy match au3Builtin "@ComputerName"
-sy match au3Builtin "@ComSpec"
-sy match au3Builtin "@CR\(LF\)\="
-sy match au3Builtin "@Desktop\(Common\)\=Dir"
-sy match au3Builtin "@DesktopDepth"
-sy match au3Builtin "@DesktopHeight"
-sy match au3Builtin "@DesktopRefresh"
-sy match au3Builtin "@DesktopWidth"
-sy match au3Builtin "@DocumentsCommonDir"
-sy match au3Builtin "@Error"
-sy match au3Builtin "@ExitCode"
-sy match au3Builtin "@ExitMethod"
-sy match au3Builtin "@Extended"
-sy match au3Builtin "@Favorites\(Common\)\=Dir"
-sy match au3Builtin "@GUI_CtrlId"
-sy match au3Builtin "@GUI_CtrlHandle"
-sy match au3Builtin "@GUI_DragId"
-sy match au3Builtin "@GUI_DragFile"
-sy match au3Builtin "@GUI_DropId"
-sy match au3Builtin "@GUI_WinHandle"
-sy match au3Builtin "@HomeDrive"
-sy match au3Builtin "@HomePath"
-sy match au3Builtin "@HomeShare"
-sy match au3Builtin "@HOUR"
-sy match au3Builtin "@HotKeyPressed"
-sy match au3Builtin "@InetGetActive"
-sy match au3Builtin "@InetGetBytesRead"
-sy match au3Builtin "@IPAddress[1234]"
-sy match au3Builtin "@LF"
-sy match au3Builtin "@Logon\(DNS\)\=Domain"
-sy match au3Builtin "@LogonServer"
-sy match au3Builtin "@MDAY"
-sy match au3Builtin "@MIN"
-sy match au3Builtin "@MON"
-sy match au3Builtin "@MyDocumentsDir"
-sy match au3Builtin "@NumParams"
-sy match au3Builtin "@OSBuild"
-sy match au3Builtin "@OSLang"
-sy match au3Builtin "@OSServicePack"
-sy match au3Builtin "@OSTYPE"
-sy match au3Builtin "@OSVersion"
-sy match au3Builtin "@ProcessorArch"
-sy match au3Builtin "@ProgramFilesDir"
-sy match au3Builtin "@Programs\(Common\)\=Dir"
-sy match au3Builtin "@ScriptDir"
-sy match au3Builtin "@ScriptFullPath"
-sy match au3Builtin "@ScriptLineNumber"
-sy match au3Builtin "@ScriptName"
-sy match au3Builtin "@SEC"
-sy match au3Builtin "@StartMenu\(Common\)\=Dir"
-sy match au3Builtin "@Startup\(Common\)\=Dir"
-sy match au3Builtin "@SW_DISABLE"
-sy match au3Builtin "@SW_ENABLE"
-sy match au3Builtin "@SW_HIDE"
-sy match au3Builtin "@SW_LOCK"
-sy match au3Builtin "@SW_MAXIMIZE"
-sy match au3Builtin "@SW_MINIMIZE"
-sy match au3Builtin "@SW_RESTORE"
-sy match au3Builtin "@SW_SHOW"
-sy match au3Builtin "@SW_SHOWDEFAULT"
-sy match au3Builtin "@SW_SHOWMAXIMIZED"
-sy match au3Builtin "@SW_SHOWMINIMIZED"
-sy match au3Builtin "@SW_SHOWMINNOACTIVE"
-sy match au3Builtin "@SW_SHOWNA"
-sy match au3Builtin "@SW_SHOWNOACTIVATE"
-sy match au3Builtin "@SW_SHOWNORMAL"
-sy match au3Builtin "@SW_UNLOCK"
-sy match au3Builtin "@SystemDir"
-sy match au3Builtin "@TAB"
-sy match au3Builtin "@TempDir"
-sy match au3Builtin "@TRAY_ID"
-sy match au3Builtin "@TrayIconFlashing"
-sy match au3Builtin "@TrayIconVisible"
-sy match au3Builtin "@UserProfileDir"
-sy match au3Builtin "@UserName"
-sy match au3Builtin "@WDAY"
-sy match au3Builtin "@WindowsDir"
-sy match au3Builtin "@WorkingDir"
-sy match au3Builtin "@YDAY"
-sy match au3Builtin "@YEAR"
+syn match autoitBuiltin "@AppData\(Common\)\=Dir"
+syn match autoitBuiltin "@AutoItExe"
+syn match autoitBuiltin "@AutoItPID"
+syn match autoitBuiltin "@AutoItVersion"
+syn match autoitBuiltin "@COM_EventObj"
+syn match autoitBuiltin "@CommonFilesDir"
+syn match autoitBuiltin "@Compiled"
+syn match autoitBuiltin "@ComputerName"
+syn match autoitBuiltin "@ComSpec"
+syn match autoitBuiltin "@CR\(LF\)\="
+syn match autoitBuiltin "@Desktop\(Common\)\=Dir"
+syn match autoitBuiltin "@DesktopDepth"
+syn match autoitBuiltin "@DesktopHeight"
+syn match autoitBuiltin "@DesktopRefresh"
+syn match autoitBuiltin "@DesktopWidth"
+syn match autoitBuiltin "@DocumentsCommonDir"
+syn match autoitBuiltin "@Error"
+syn match autoitBuiltin "@ExitCode"
+syn match autoitBuiltin "@ExitMethod"
+syn match autoitBuiltin "@Extended"
+syn match autoitBuiltin "@Favorites\(Common\)\=Dir"
+syn match autoitBuiltin "@GUI_CtrlId"
+syn match autoitBuiltin "@GUI_CtrlHandle"
+syn match autoitBuiltin "@GUI_DragId"
+syn match autoitBuiltin "@GUI_DragFile"
+syn match autoitBuiltin "@GUI_DropId"
+syn match autoitBuiltin "@GUI_WinHandle"
+syn match autoitBuiltin "@HomeDrive"
+syn match autoitBuiltin "@HomePath"
+syn match autoitBuiltin "@HomeShare"
+syn match autoitBuiltin "@HOUR"
+syn match autoitBuiltin "@HotKeyPressed"
+syn match autoitBuiltin "@InetGetActive"
+syn match autoitBuiltin "@InetGetBytesRead"
+syn match autoitBuiltin "@IPAddress[1234]"
+syn match autoitBuiltin "@KBLayout"
+syn match autoitBuiltin "@LF"
+syn match autoitBuiltin "@Logon\(DNS\)\=Domain"
+syn match autoitBuiltin "@LogonServer"
+syn match autoitBuiltin "@MDAY"
+syn match autoitBuiltin "@MIN"
+syn match autoitBuiltin "@MON"
+syn match autoitBuiltin "@MyDocumentsDir"
+syn match autoitBuiltin "@NumParams"
+syn match autoitBuiltin "@OSBuild"
+syn match autoitBuiltin "@OSLang"
+syn match autoitBuiltin "@OSServicePack"
+syn match autoitBuiltin "@OSTYPE"
+syn match autoitBuiltin "@OSVersion"
+syn match autoitBuiltin "@ProcessorArch"
+syn match autoitBuiltin "@ProgramFilesDir"
+syn match autoitBuiltin "@Programs\(Common\)\=Dir"
+syn match autoitBuiltin "@ScriptDir"
+syn match autoitBuiltin "@ScriptFullPath"
+syn match autoitBuiltin "@ScriptLineNumber"
+syn match autoitBuiltin "@ScriptName"
+syn match autoitBuiltin "@SEC"
+syn match autoitBuiltin "@StartMenu\(Common\)\=Dir"
+syn match autoitBuiltin "@Startup\(Common\)\=Dir"
+syn match autoitBuiltin "@SW_DISABLE"
+syn match autoitBuiltin "@SW_ENABLE"
+syn match autoitBuiltin "@SW_HIDE"
+syn match autoitBuiltin "@SW_LOCK"
+syn match autoitBuiltin "@SW_MAXIMIZE"
+syn match autoitBuiltin "@SW_MINIMIZE"
+syn match autoitBuiltin "@SW_RESTORE"
+syn match autoitBuiltin "@SW_SHOW"
+syn match autoitBuiltin "@SW_SHOWDEFAULT"
+syn match autoitBuiltin "@SW_SHOWMAXIMIZED"
+syn match autoitBuiltin "@SW_SHOWMINIMIZED"
+syn match autoitBuiltin "@SW_SHOWMINNOACTIVE"
+syn match autoitBuiltin "@SW_SHOWNA"
+syn match autoitBuiltin "@SW_SHOWNOACTIVATE"
+syn match autoitBuiltin "@SW_SHOWNORMAL"
+syn match autoitBuiltin "@SW_UNLOCK"
+syn match autoitBuiltin "@SystemDir"
+syn match autoitBuiltin "@TAB"
+syn match autoitBuiltin "@TempDir"
+syn match autoitBuiltin "@TRAY_ID"
+syn match autoitBuiltin "@TrayIconFlashing"
+syn match autoitBuiltin "@TrayIconVisible"
+syn match autoitBuiltin "@UserProfileDir"
+syn match autoitBuiltin "@UserName"
+syn match autoitBuiltin "@WDAY"
+syn match autoitBuiltin "@WindowsDir"
+syn match autoitBuiltin "@WorkingDir"
+syn match autoitBuiltin "@YDAY"
+syn match autoitBuiltin "@YEAR"
 
 "comments and commenting-out
-sy match au3Comment ";.*"
+syn match autoitComment ";.*"
 "in this way also #ce alone will be highlighted
-sy match au3CommDelimiter "^\s*#comments-start\>"
-sy match au3CommDelimiter "^\s*#cs\>"
-sy match au3CommDelimiter "^\s*#comments-end\>"
-sy match au3CommDelimiter "^\s*#ce\>"
-sy region au3Comment
-	\ matchgroup=au3CommDelimiter
+syn match autoitCommDelimiter "^\s*#comments-start\>"
+syn match autoitCommDelimiter "^\s*#cs\>"
+syn match autoitCommDelimiter "^\s*#comments-end\>"
+syn match autoitCommDelimiter "^\s*#ce\>"
+syn region autoitComment
+	\ matchgroup=autoitCommDelimiter
 	\ start="^\s*#comments-start\>" start="^\s*#cs\>"
 	\ end="^\s*#comments-end\>" end="^\s*#ce\>"
 
 "one character operators
-sy match au3Operator "[-+*/&^=<>][^-+*/&^=<>]"me=e-1
+syn match autoitOperator "[-+*/&^=<>][^-+*/&^=<>]"me=e-1
 "two characters operators
-sy match au3Operator "==[^=]"me=e-1
-sy match au3Operator "<>"
-sy match au3Operator "<="
-sy match au3Operator ">="
-sy match au3Operator "+="
-sy match au3Operator "-="
-sy match au3Operator "*="
-sy match au3Operator "/="
-sy match au3Operator "&="
-sy keyword au3Operator NOT AND OR
+syn match autoitOperator "==[^=]"me=e-1
+syn match autoitOperator "<>"
+syn match autoitOperator "<="
+syn match autoitOperator ">="
+syn match autoitOperator "+="
+syn match autoitOperator "-="
+syn match autoitOperator "*="
+syn match autoitOperator "/="
+syn match autoitOperator "&="
+syn keyword autoitOperator NOT AND OR
 
-sy match au3Paren "(\|)"
-sy match au3Bracket "\[\|\]"
-sy match au3Comma ","
+syn match autoitParen "(\|)"
+syn match autoitBracket "\[\|\]"
+syn match autoitComma ","
 
 "numbers must come after operator '-'
 "decimal numbers without a dot
-sy match au3Number "-\=\<\d\+\>"
+syn match autoitNumber "-\=\<\d\+\>"
 "hexadecimal numbers without a dot
-sy match au3Number "-\=\<0x\x\+\>"
+syn match autoitNumber "-\=\<0x\x\+\>"
 "floating point number with dot (inside or at end)
-sy match au3Number "-\=\<\d\+\.\d*\>"
+
+syn match autoitNumber "-\=\<\d\+\.\d*\>"
 "floating point number, starting with a dot
-sy match au3Number "-\=\<\.\d\+\>"
+syn match autoitNumber "-\=\<\.\d\+\>"
 "scientific notation numbers without dots
-sy match au3Number "-\=\<\d\+e[-+]\=\d\+\>"
+syn match autoitNumber "-\=\<\d\+e[-+]\=\d\+\>"
 "scientific notation numbers with dots
-sy match au3Number "-\=\<\(\(\d\+\.\d*\)\|\(\.\d\+\)\)\(e[-+]\=\d\+\)\=\>"
+syn match autoitNumber "-\=\<\(\(\d\+\.\d*\)\|\(\.\d\+\)\)\(e[-+]\=\d\+\)\=\>"
 
 "string constants
 "we want the escaped quotes marked in red
-sy match au3DoubledSingles +''+ contained
-sy match au3DoubledDoubles +""+ contained
+syn match autoitDoubledSingles +''+ contained
+syn match autoitDoubledDoubles +""+ contained
 "we want the continuation character marked in red
 "(also at the top level, not just contained)
-sy match au3Cont "_$"
+syn match autoitCont "_$"
 
-" send key list - must be defined before au3Strings
-sy match au3Send "{!}" contained
-sy match au3Send "{#}" contained
-sy match au3Send "{+}" contained
-sy match au3Send "{^}" contained
-sy match au3Send "{{}" contained
-sy match au3Send "{}}" contained
-sy match au3Send "{SPACE}" contained
-sy match au3Send "{ENTER}" contained
-sy match au3Send "{ALT}" contained
-sy match au3Send "{BACKSPACE}" contained
-sy match au3Send "{BS}" contained
-sy match au3Send "{DELETE}" contained
-sy match au3Send "{DEL}" contained
-sy match au3Send "{UP}" contained
-sy match au3Send "{DOWN}" contained
-sy match au3Send "{LEFT}" contained
-sy match au3Send "{RIGHT}" contained
-sy match au3Send "{HOME}" contained
-sy match au3Send "{END}" contained
-sy match au3Send "{ESCAPE}" contained
-sy match au3Send "{ESC}" contained
-sy match au3Send "{INSERT}" contained
-sy match au3Send "{INS}" contained
-sy match au3Send "{PGUP}" contained
-sy match au3Send "{PGDN}" contained
-sy match au3Send "{F1}" contained
-sy match au3Send "{F2}" contained
-sy match au3Send "{F3}" contained
-sy match au3Send "{F4}" contained
-sy match au3Send "{F5}" contained
-sy match au3Send "{F6}" contained
-sy match au3Send "{F7}" contained
-sy match au3Send "{F8}" contained
-sy match au3Send "{F9}" contained
-sy match au3Send "{F10}" contained
-sy match au3Send "{F11}" contained
-sy match au3Send "{F12}" contained
-sy match au3Send "{TAB}" contained
-sy match au3Send "{PRINTSCREEN}" contained
-sy match au3Send "{LWIN}" contained
-sy match au3Send "{RWIN}" contained
-sy match au3Send "{NUMLOCK}" contained
-sy match au3Send "{CTRLBREAK}" contained
-sy match au3Send "{PAUSE}" contained
-sy match au3Send "{CAPSLOCK}" contained
-sy match au3Send "{NUMPAD0}" contained
-sy match au3Send "{NUMPAD1}" contained
-sy match au3Send "{NUMPAD2}" contained
-sy match au3Send "{NUMPAD3}" contained
-sy match au3Send "{NUMPAD4}" contained
-sy match au3Send "{NUMPAD5}" contained
-sy match au3Send "{NUMPAD6}" contained
-sy match au3Send "{NUMPAD7}" contained
-sy match au3Send "{NUMPAD8}" contained
-sy match au3Send "{NUMPAD9}" contained
-sy match au3Send "{NUMPADMULT}" contained
-sy match au3Send "{NUMPADADD}" contained
-sy match au3Send "{NUMPADSUB}" contained
-sy match au3Send "{NUMPADDIV}" contained
-sy match au3Send "{NUMPADDOT}" contained
-sy match au3Send "{NUMPADENTER}" contained
-sy match au3Send "{APPSKEY}" contained
-sy match au3Send "{LALT}" contained
-sy match au3Send "{RALT}" contained
-sy match au3Send "{LCTRL}" contained
-sy match au3Send "{RCTRL}" contained
-sy match au3Send "{LSHIFT}" contained
-sy match au3Send "{RSHIFT}" contained
-sy match au3Send "{SLEEP}" contained
-sy match au3Send "{ALTDOWN}" contained
-sy match au3Send "{SHIFTDOWN}" contained
-sy match au3Send "{CTRLDOWN}" contained
-sy match au3Send "{LWINDOWN}" contained
-sy match au3Send "{RWINDOWN}" contained
-sy match au3Send "{ASC \d\d\d\d}" contained
-sy match au3Send "{BROWSER_BACK}" contained
-sy match au3Send "{BROWSER_FORWARD}" contained
-sy match au3Send "{BROWSER_REFRESH}" contained
-sy match au3Send "{BROWSER_STOP}" contained
-sy match au3Send "{BROWSER_SEARCH}" contained
-sy match au3Send "{BROWSER_FAVORITES}" contained
-sy match au3Send "{BROWSER_HOME}" contained
-sy match au3Send "{VOLUME_MUTE}" contained
-sy match au3Send "{VOLUME_DOWN}" contained
-sy match au3Send "{VOLUME_UP}" contained
-sy match au3Send "{MEDIA_NEXT}" contained
-sy match au3Send "{MEDIA_PREV}" contained
-sy match au3Send "{MEDIA_STOP}" contained
-sy match au3Send "{MEDIA_PLAY_PAUSE}" contained
-sy match au3Send "{LAUNCH_MAIL}" contained
-sy match au3Send "{LAUNCH_MEDIA}" contained
-sy match au3Send "{LAUNCH_APP1}" contained
-sy match au3Send "{LAUNCH_APP2}" contained
+" send key list - must be defined before autoitStrings
+syn match autoitSend "{!}" contained
+syn match autoitSend "{#}" contained
+syn match autoitSend "{+}" contained
+syn match autoitSend "{^}" contained
+syn match autoitSend "{{}" contained
+syn match autoitSend "{}}" contained
+syn match autoitSend "{SPACE}" contained
+syn match autoitSend "{ENTER}" contained
+syn match autoitSend "{ALT}" contained
+syn match autoitSend "{BACKSPACE}" contained
+syn match autoitSend "{BS}" contained
+syn match autoitSend "{DELETE}" contained
+syn match autoitSend "{DEL}" contained
+syn match autoitSend "{UP}" contained
+syn match autoitSend "{DOWN}" contained
+syn match autoitSend "{LEFT}" contained
+syn match autoitSend "{RIGHT}" contained
+syn match autoitSend "{HOME}" contained
+syn match autoitSend "{END}" contained
+syn match autoitSend "{ESCAPE}" contained
+syn match autoitSend "{ESC}" contained
+syn match autoitSend "{INSERT}" contained
+syn match autoitSend "{INS}" contained
+syn match autoitSend "{PGUP}" contained
+syn match autoitSend "{PGDN}" contained
+syn match autoitSend "{F1}" contained
+syn match autoitSend "{F2}" contained
+syn match autoitSend "{F3}" contained
+syn match autoitSend "{F4}" contained
+syn match autoitSend "{F5}" contained
+syn match autoitSend "{F6}" contained
+syn match autoitSend "{F7}" contained
+syn match autoitSend "{F8}" contained
+syn match autoitSend "{F9}" contained
+syn match autoitSend "{F10}" contained
+syn match autoitSend "{F11}" contained
+syn match autoitSend "{F12}" contained
+syn match autoitSend "{TAB}" contained
+syn match autoitSend "{PRINTSCREEN}" contained
+syn match autoitSend "{LWIN}" contained
+syn match autoitSend "{RWIN}" contained
+syn match autoitSend "{NUMLOCK}" contained
+syn match autoitSend "{CTRLBREAK}" contained
+syn match autoitSend "{PAUSE}" contained
+syn match autoitSend "{CAPSLOCK}" contained
+syn match autoitSend "{NUMPAD0}" contained
+syn match autoitSend "{NUMPAD1}" contained
+syn match autoitSend "{NUMPAD2}" contained
+syn match autoitSend "{NUMPAD3}" contained
+syn match autoitSend "{NUMPAD4}" contained
+syn match autoitSend "{NUMPAD5}" contained
+syn match autoitSend "{NUMPAD6}" contained
+syn match autoitSend "{NUMPAD7}" contained
+syn match autoitSend "{NUMPAD8}" contained
+syn match autoitSend "{NUMPAD9}" contained
+syn match autoitSend "{NUMPADMULT}" contained
+syn match autoitSend "{NUMPADADD}" contained
+syn match autoitSend "{NUMPADSUB}" contained
+syn match autoitSend "{NUMPADDIV}" contained
+syn match autoitSend "{NUMPADDOT}" contained
+syn match autoitSend "{NUMPADENTER}" contained
+syn match autoitSend "{APPSKEY}" contained
+syn match autoitSend "{LALT}" contained
+syn match autoitSend "{RALT}" contained
+syn match autoitSend "{LCTRL}" contained
+syn match autoitSend "{RCTRL}" contained
+syn match autoitSend "{LSHIFT}" contained
+syn match autoitSend "{RSHIFT}" contained
+syn match autoitSend "{SLEEP}" contained
+syn match autoitSend "{ALTDOWN}" contained
+syn match autoitSend "{SHIFTDOWN}" contained
+syn match autoitSend "{CTRLDOWN}" contained
+syn match autoitSend "{LWINDOWN}" contained
+syn match autoitSend "{RWINDOWN}" contained
+syn match autoitSend "{ASC \d\d\d\d}" contained
+syn match autoitSend "{BROWSER_BACK}" contained
+syn match autoitSend "{BROWSER_FORWARD}" contained
+syn match autoitSend "{BROWSER_REFRESH}" contained
+syn match autoitSend "{BROWSER_STOP}" contained
+syn match autoitSend "{BROWSER_SEARCH}" contained
+syn match autoitSend "{BROWSER_FAVORITES}" contained
+syn match autoitSend "{BROWSER_HOME}" contained
+syn match autoitSend "{VOLUME_MUTE}" contained
+syn match autoitSend "{VOLUME_DOWN}" contained
+syn match autoitSend "{VOLUME_UP}" contained
+syn match autoitSend "{MEDIA_NEXT}" contained
+syn match autoitSend "{MEDIA_PREV}" contained
+syn match autoitSend "{MEDIA_STOP}" contained
+syn match autoitSend "{MEDIA_PLAY_PAUSE}" contained
+syn match autoitSend "{LAUNCH_MAIL}" contained
+syn match autoitSend "{LAUNCH_MEDIA}" contained
+syn match autoitSend "{LAUNCH_APP1}" contained
+syn match autoitSend "{LAUNCH_APP2}" contained
 
 "this was tricky!
 "we use an oneline region, instead of a match, in order to use skip=
 "matchgroup= so start and end quotes are not considered as au3Doubled
 "contained
-sy region au3String oneline contains=au3Send matchgroup=au3Quote start=+"+
+syn region autoitString oneline contains=autoitSend matchgroup=autoitQuote start=+"+
 	\ end=+"+ end=+_\n\{1}.*"+
-	\ contains=au3Cont,au3DoubledDoubles skip=+""+
-sy region au3String oneline matchgroup=au3Quote start=+'+
+	\ contains=autoitCont,autoitDoubledDoubles skip=+""+
+syn region autoitString oneline matchgroup=autoitQuote start=+'+
 	\ end=+'+ end=+_\n\{1}.*'+
-	\ contains=au3Cont,au3DoubledSingles skip=+''+
+	\ contains=autoitCont,autoitDoubledSingles skip=+''+
 
-sy match au3VarSelector "\$"	contained display
-sy match au3Variable "$\w\+" contains=au3VarSelector
+syn match autoitVarSelector "\$"	contained display
+syn match autoitVariable "$\w\+" contains=autoitVarSelector
 
-" options - must be defined after au3Strings
-sy match au3Option "\"CaretCoordMode\""
-sy match au3Option "\"ColorMode\""
-sy match au3Option "\"ExpandEnvStrings\""
-sy match au3Option "\"ExpandVarStrings\""
-sy match au3Option "\"FtpBinaryMode\""
-sy match au3Option "\"GUICloseOnEsc\""
-sy match au3Option "\"GUICoordMode\""
-sy match au3Option "\"GUIDataSeparatorChar\""
-sy match au3Option "\"GUIOnEventMode\""
-sy match au3Option "\"GUIResizeMode\""
-sy match au3Option "\"GUIEventCompatibilityMode\""
-sy match au3Option "\"MouseClickDelay\""
-sy match au3Option "\"MouseClickDownDelay\""
-sy match au3Option "\"MouseClickDragDelay\""
-sy match au3Option "\"MouseCoordMode\""
-sy match au3Option "\"MustDeclareVars\""
-sy match au3Option "\"OnExitFunc\""
-sy match au3Option "\"PixelCoordMode\""
-sy match au3Option "\"RunErrorsFatal\""
-sy match au3Option "\"SendAttachMode\""
-sy match au3Option "\"SendCapslockMode\""
-sy match au3Option "\"SendKeyDelay\""
-sy match au3Option "\"SendKeyDownDelay\""
-sy match au3Option "\"TCPTimeout\""
-sy match au3Option "\"TrayAutoPause\""
-sy match au3Option "\"TrayIconDebug\""
-sy match au3Option "\"TrayIconHide\""
-sy match au3Option "\"TrayMenuMode\""
-sy match au3Option "\"TrayOnEventMode\""
-sy match au3Option "\"WinDetectHiddenText\""
-sy match au3Option "\"WinSearchChildren\""
-sy match au3Option "\"WinTextMatchMode\""
-sy match au3Option "\"WinTitleMatchMode\""
-sy match au3Option "\"WinWaitDelay\""
+" options - must be defined after autoitStrings
+syn match autoitOption "\([\"\']\)CaretCoordMode\1"
+syn match autoitOption "\([\"\']\)ColorMode\1"
+syn match autoitOption "\([\"\']\)ExpandEnvStrings\1"
+syn match autoitOption "\([\"\']\)ExpandVarStrings\1"
+syn match autoitOption "\([\"\']\)FtpBinaryMode\1"
+syn match autoitOption "\([\"\']\)GUICloseOnEsc\1"
+syn match autoitOption "\([\"\']\)GUICoordMode\1"
+syn match autoitOption "\([\"\']\)GUIDataSeparatorChar\1"
+syn match autoitOption "\([\"\']\)GUIOnEventMode\1"
+syn match autoitOption "\([\"\']\)GUIResizeMode\1"
+syn match autoitOption "\([\"\']\)GUIEventCompatibilityMode\1"
+syn match autoitOption "\([\"\']\)MouseClickDelay\1"
+syn match autoitOption "\([\"\']\)MouseClickDownDelay\1"
+syn match autoitOption "\([\"\']\)MouseClickDragDelay\1"
+syn match autoitOption "\([\"\']\)MouseCoordMode\1"
+syn match autoitOption "\([\"\']\)MustDeclareVars\1"
+syn match autoitOption "\([\"\']\)OnExitFunc\1"
+syn match autoitOption "\([\"\']\)PixelCoordMode\1"
+syn match autoitOption "\([\"\']\)RunErrorsFatal\1"
+syn match autoitOption "\([\"\']\)SendAttachMode\1"
+syn match autoitOption "\([\"\']\)SendCapslockMode\1"
+syn match autoitOption "\([\"\']\)SendKeyDelay\1"
+syn match autoitOption "\([\"\']\)SendKeyDownDelay\1"
+syn match autoitOption "\([\"\']\)TCPTimeout\1"
+syn match autoitOption "\([\"\']\)TrayAutoPause\1"
+syn match autoitOption "\([\"\']\)TrayIconDebug\1"
+syn match autoitOption "\([\"\']\)TrayIconHide\1"
+syn match autoitOption "\([\"\']\)TrayMenuMode\1"
+syn match autoitOption "\([\"\']\)TrayOnEventMode\1"
+syn match autoitOption "\([\"\']\)WinDetectHiddenText\1"
+syn match autoitOption "\([\"\']\)WinSearchChildren\1"
+syn match autoitOption "\([\"\']\)WinTextMatchMode\1"
+syn match autoitOption "\([\"\']\)WinTitleMatchMode\1"
+syn match autoitOption "\([\"\']\)WinWaitDelay\1"
 
-" styles - must be defined after au3Variable
+" styles - must be defined after autoitVariable
 " common
-sy match au3Style "\$WS_BORDER"
-sy match au3Style "\$WS_POPUP"
-sy match au3Style "\$WS_CAPTION"
-sy match au3Style "\$WS_CLIPCHILDREN"
-sy match au3Style "\$WS_CLIPSIBLINGS"
-sy match au3Style "\$WS_DISABLED"
-sy match au3Style "\$WS_DLGFRAME"
-sy match au3Style "\$WS_HSCROLL"
-sy match au3Style "\$WS_MAXIMIZE"
-sy match au3Style "\$WS_MAXIMIZEBOX"
-sy match au3Style "\$WS_MINIMIZE"
-sy match au3Style "\$WS_MINIMIZEBOX"
-sy match au3Style "\$WS_OVERLAPPED"
-sy match au3Style "\$WS_OVERLAPPEDWINDOW"
-sy match au3Style "\$WS_POPUPWINDOW"
-sy match au3Style "\$WS_SIZEBOX"
-sy match au3Style "\$WS_SYSMENU"
-sy match au3Style "\$WS_THICKFRAME"
-sy match au3Style "\$WS_VSCROLL"
-sy match au3Style "\$WS_VISIBLE"
-sy match au3Style "\$WS_CHILD"
-sy match au3Style "\$WS_GROUP"
-sy match au3Style "\$WS_TABSTOP"
-sy match au3Style "\$DS_MODALFRAME"
-sy match au3Style "\$DS_SETFOREGROUND"
-sy match au3Style "\$DS_CONTEXTHELP"
+syn match autoitStyle "\$WS_BORDER"
+syn match autoitStyle "\$WS_POPUP"
+syn match autoitStyle "\$WS_CAPTION"
+syn match autoitStyle "\$WS_CLIPCHILDREN"
+syn match autoitStyle "\$WS_CLIPSIBLINGS"
+syn match autoitStyle "\$WS_DISABLED"
+syn match autoitStyle "\$WS_DLGFRAME"
+syn match autoitStyle "\$WS_HSCROLL"
+syn match autoitStyle "\$WS_MAXIMIZE"
+syn match autoitStyle "\$WS_MAXIMIZEBOX"
+syn match autoitStyle "\$WS_MINIMIZE"
+syn match autoitStyle "\$WS_MINIMIZEBOX"
+syn match autoitStyle "\$WS_OVERLAPPED"
+syn match autoitStyle "\$WS_OVERLAPPEDWINDOW"
+syn match autoitStyle "\$WS_POPUPWINDOW"
+syn match autoitStyle "\$WS_SIZEBOX"
+syn match autoitStyle "\$WS_SYSMENU"
+syn match autoitStyle "\$WS_THICKFRAME"
+syn match autoitStyle "\$WS_VSCROLL"
+syn match autoitStyle "\$WS_VISIBLE"
+syn match autoitStyle "\$WS_CHILD"
+syn match autoitStyle "\$WS_GROUP"
+syn match autoitStyle "\$WS_TABSTOP"
+syn match autoitStyle "\$DS_MODALFRAME"
+syn match autoitStyle "\$DS_SETFOREGROUND"
+syn match autoitStyle "\$DS_CONTEXTHELP"
 " common extended
-sy match au3Style "\$WS_EX_ACCEPTFILES"
-sy match au3Style "\$WS_EX_APPWINDOW"
-sy match au3Style "\$WS_EX_CLIENTEDGE"
-sy match au3Style "\$WS_EX_CONTEXTHELP"
-sy match au3Style "\$WS_EX_DLGMODALFRAME"
-sy match au3Style "\$WS_EX_MDICHILD"
-sy match au3Style "\$WS_EX_OVERLAPPEDWINDOW"
-sy match au3Style "\$WS_EX_STATICEDGE"
-sy match au3Style "\$WS_EX_TOPMOST"
-sy match au3Style "\$WS_EX_TRANSPARENT"
-sy match au3Style "\$WS_EX_TOOLWINDOW"
-sy match au3Style "\$WS_EX_WINDOWEDGE"
-sy match au3Style "\$WS_EX_LAYERED"
-sy match au3Style "\$GUI_WS_EX_PARENTDRAG"
+syn match autoitStyle "\$WS_EX_ACCEPTFILES"
+syn match autoitStyle "\$WS_EX_APPWINDOW"
+syn match autoitStyle "\$WS_EX_CLIENTEDGE"
+syn match autoitStyle "\$WS_EX_CONTEXTHELP"
+syn match autoitStyle "\$WS_EX_DLGMODALFRAME"
+syn match autoitStyle "\$WS_EX_MDICHILD"
+syn match autoitStyle "\$WS_EX_OVERLAPPEDWINDOW"
+syn match autoitStyle "\$WS_EX_STATICEDGE"
+syn match autoitStyle "\$WS_EX_TOPMOST"
+syn match autoitStyle "\$WS_EX_TRANSPARENT"
+syn match autoitStyle "\$WS_EX_TOOLWINDOW"
+syn match autoitStyle "\$WS_EX_WINDOWEDGE"
+syn match autoitStyle "\$WS_EX_LAYERED"
+syn match autoitStyle "\$GUI_WS_EX_PARENTDRAG"
 " checkbox
-sy match au3Style "\$BS_3STATE"
-sy match au3Style "\$BS_AUTO3STATE"
-sy match au3Style "\$BS_AUTOCHECKBOX"
-sy match au3Style "\$BS_CHECKBOX"
-sy match au3Style "\$BS_LEFT"
-sy match au3Style "\$BS_PUSHLIKE"
-sy match au3Style "\$BS_RIGHT"
-sy match au3Style "\$BS_RIGHTBUTTON"
-sy match au3Style "\$BS_GROUPBOX"
-sy match au3Style "\$BS_AUTORADIOBUTTON"
+syn match autoitStyle "\$BS_3STATE"
+syn match autoitStyle "\$BS_AUTO3STATE"
+syn match autoitStyle "\$BS_AUTOCHECKBOX"
+syn match autoitStyle "\$BS_CHECKBOX"
+syn match autoitStyle "\$BS_LEFT"
+syn match autoitStyle "\$BS_PUSHLIKE"
+syn match autoitStyle "\$BS_RIGHT"
+syn match autoitStyle "\$BS_RIGHTBUTTON"
+syn match autoitStyle "\$BS_GROUPBOX"
+syn match autoitStyle "\$BS_AUTORADIOBUTTON"
 " push button
-sy match au3Style "\$BS_BOTTOM"
-sy match au3Style "\$BS_CENTER"
-sy match au3Style "\$BS_DEFPUSHBUTTON"
-sy match au3Style "\$BS_MULTILINE"
-sy match au3Style "\$BS_TOP"
-sy match au3Style "\$BS_VCENTER"
-sy match au3Style "\$BS_ICON"
-sy match au3Style "\$BS_BITMAP"
-sy match au3Style "\$BS_FLAT"
+syn match autoitStyle "\$BS_BOTTOM"
+syn match autoitStyle "\$BS_CENTER"
+syn match autoitStyle "\$BS_DEFPUSHBUTTON"
+syn match autoitStyle "\$BS_MULTILINE"
+syn match autoitStyle "\$BS_TOP"
+syn match autoitStyle "\$BS_VCENTER"
+syn match autoitStyle "\$BS_ICON"
+syn match autoitStyle "\$BS_BITMAP"
+syn match autoitStyle "\$BS_FLAT"
 " combo
-sy match au3Style "\$CBS_AUTOHSCROLL"
-sy match au3Style "\$CBS_DISABLENOSCROLL"
-sy match au3Style "\$CBS_DROPDOWN"
-sy match au3Style "\$CBS_DROPDOWNLIST"
-sy match au3Style "\$CBS_LOWERCASE"
-sy match au3Style "\$CBS_NOINTEGRALHEIGHT"
-sy match au3Style "\$CBS_OEMCONVERT"
-sy match au3Style "\$CBS_SIMPLE"
-sy match au3Style "\$CBS_SORT"
-sy match au3Style "\$CBS_UPPERCASE"
+syn match autoitStyle "\$CBS_AUTOHSCROLL"
+syn match autoitStyle "\$CBS_DISABLENOSCROLL"
+syn match autoitStyle "\$CBS_DROPDOWN"
+syn match autoitStyle "\$CBS_DROPDOWNLIST"
+syn match autoitStyle "\$CBS_LOWERCASE"
+syn match autoitStyle "\$CBS_NOINTEGRALHEIGHT"
+syn match autoitStyle "\$CBS_OEMCONVERT"
+syn match autoitStyle "\$CBS_SIMPLE"
+syn match autoitStyle "\$CBS_SORT"
+syn match autoitStyle "\$CBS_UPPERCASE"
 " list
-sy match au3Style "\$LBS_DISABLENOSCROLL"
-sy match au3Style "\$LBS_NOINTEGRALHEIGHT"
-sy match au3Style "\$LBS_NOSEL"
-sy match au3Style "\$LBS_NOTIFY"
-sy match au3Style "\$LBS_SORT"
-sy match au3Style "\$LBS_STANDARD"
-sy match au3Style "\$LBS_USETABSTOPS"
+syn match autoitStyle "\$LBS_DISABLENOSCROLL"
+syn match autoitStyle "\$LBS_NOINTEGRALHEIGHT"
+syn match autoitStyle "\$LBS_NOSEL"
+syn match autoitStyle "\$LBS_NOTIFY"
+syn match autoitStyle "\$LBS_SORT"
+syn match autoitStyle "\$LBS_STANDARD"
+syn match autoitStyle "\$LBS_USETABSTOPS"
 " edit/input
-sy match au3Style "\$ES_AUTOHSCROLL"
-sy match au3Style "\$ES_AUTOVSCROLL"
-sy match au3Style "\$ES_CENTER"
-sy match au3Style "\$ES_LOWERCASE"
-sy match au3Style "\$ES_NOHIDESEL"
-sy match au3Style "\$ES_NUMBER"
-sy match au3Style "\$ES_OEMCONVERT"
-sy match au3Style "\$ES_MULTILINE"
-sy match au3Style "\$ES_PASSWORD"
-sy match au3Style "\$ES_READONLY"
-sy match au3Style "\$ES_RIGHT"
-sy match au3Style "\$ES_UPPERCASE"
-sy match au3Style "\$ES_WANTRETURN"
+syn match autoitStyle "\$ES_AUTOHSCROLL"
+syn match autoitStyle "\$ES_AUTOVSCROLL"
+syn match autoitStyle "\$ES_CENTER"
+syn match autoitStyle "\$ES_LOWERCASE"
+syn match autoitStyle "\$ES_NOHIDESEL"
+syn match autoitStyle "\$ES_NUMBER"
+syn match autoitStyle "\$ES_OEMCONVERT"
+syn match autoitStyle "\$ES_MULTILINE"
+syn match autoitStyle "\$ES_PASSWORD"
+syn match autoitStyle "\$ES_READONLY"
+syn match autoitStyle "\$ES_RIGHT"
+syn match autoitStyle "\$ES_UPPERCASE"
+syn match autoitStyle "\$ES_WANTRETURN"
 " progress bar
-sy match au3Style "\$PBS_SMOOTH"
-sy match au3Style "\$PBS_VERTICAL"
+syn match autoitStyle "\$PBS_SMOOTH"
+syn match autoitStyle "\$PBS_VERTICAL"
 " up-down
-sy match au3Style "\$UDS_ALIGNLEFT"
-sy match au3Style "\$UDS_ALIGNRIGHT"
-sy match au3Style "\$UDS_ARROWKEYS"
-sy match au3Style "\$UDS_HORZ"
-sy match au3Style "\$UDS_NOTHOUSANDS"
-sy match au3Style "\$UDS_WRAP"
+syn match autoitStyle "\$UDS_ALIGNLEFT"
+syn match autoitStyle "\$UDS_ALIGNRIGHT"
+syn match autoitStyle "\$UDS_ARROWKEYS"
+syn match autoitStyle "\$UDS_HORZ"
+syn match autoitStyle "\$UDS_NOTHOUSANDS"
+syn match autoitStyle "\$UDS_WRAP"
 " label/static
-sy match au3Style "\$SS_BLACKFRAME"
-sy match au3Style "\$SS_BLACKRECT"
-sy match au3Style "\$SS_CENTER"
-sy match au3Style "\$SS_CENTERIMAGE"
-sy match au3Style "\$SS_ETCHEDFRAME"
-sy match au3Style "\$SS_ETCHEDHORZ"
-sy match au3Style "\$SS_ETCHEDVERT"
-sy match au3Style "\$SS_GRAYFRAME"
-sy match au3Style "\$SS_GRAYRECT"
-sy match au3Style "\$SS_LEFT"
-sy match au3Style "\$SS_LEFTNOWORDWRAP"
-sy match au3Style "\$SS_NOPREFIX"
-sy match au3Style "\$SS_NOTIFY"
-sy match au3Style "\$SS_RIGHT"
-sy match au3Style "\$SS_RIGHTJUST"
-sy match au3Style "\$SS_SIMPLE"
-sy match au3Style "\$SS_SUNKEN"
-sy match au3Style "\$SS_WHITEFRAME"
-sy match au3Style "\$SS_WHITERECT"
+syn match autoitStyle "\$SS_BLACKFRAME"
+syn match autoitStyle "\$SS_BLACKRECT"
+syn match autoitStyle "\$SS_CENTER"
+syn match autoitStyle "\$SS_CENTERIMAGE"
+syn match autoitStyle "\$SS_ETCHEDFRAME"
+syn match autoitStyle "\$SS_ETCHEDHORZ"
+syn match autoitStyle "\$SS_ETCHEDVERT"
+syn match autoitStyle "\$SS_GRAYFRAME"
+syn match autoitStyle "\$SS_GRAYRECT"
+syn match autoitStyle "\$SS_LEFT"
+syn match autoitStyle "\$SS_LEFTNOWORDWRAP"
+syn match autoitStyle "\$SS_NOPREFIX"
+syn match autoitStyle "\$SS_NOTIFY"
+syn match autoitStyle "\$SS_RIGHT"
+syn match autoitStyle "\$SS_RIGHTJUST"
+syn match autoitStyle "\$SS_SIMPLE"
+syn match autoitStyle "\$SS_SUNKEN"
+syn match autoitStyle "\$SS_WHITEFRAME"
+syn match autoitStyle "\$SS_WHITERECT"
 " tab
-sy match au3Style "\$TCS_SCROLLOPPOSITE"
-sy match au3Style "\$TCS_BOTTOM"
-sy match au3Style "\$TCS_RIGHT"
-sy match au3Style "\$TCS_MULTISELECT"
-sy match au3Style "\$TCS_FLATBUTTONS"
-sy match au3Style "\$TCS_FORCEICONLEFT"
-sy match au3Style "\$TCS_FORCELABELLEFT"
-sy match au3Style "\$TCS_HOTTRACK"
-sy match au3Style "\$TCS_VERTICAL"
-sy match au3Style "\$TCS_TABS"
-sy match au3Style "\$TCS_BUTTONS"
-sy match au3Style "\$TCS_SINGLELINE"
-sy match au3Style "\$TCS_MULTILINE"
-sy match au3Style "\$TCS_RIGHTJUSTIFY"
-sy match au3Style "\$TCS_FIXEDWIDTH"
-sy match au3Style "\$TCS_RAGGEDRIGHT"
-sy match au3Style "\$TCS_FOCUSONBUTTONDOWN"
-sy match au3Style "\$TCS_OWNERDRAWFIXED"
-sy match au3Style "\$TCS_TOOLTIPS"
-sy match au3Style "\$TCS_FOCUSNEVER"
+syn match autoitStyle "\$TCS_SCROLLOPPOSITE"
+syn match autoitStyle "\$TCS_BOTTOM"
+syn match autoitStyle "\$TCS_RIGHT"
+syn match autoitStyle "\$TCS_MULTISELECT"
+syn match autoitStyle "\$TCS_FLATBUTTONS"
+syn match autoitStyle "\$TCS_FORCEICONLEFT"
+syn match autoitStyle "\$TCS_FORCELABELLEFT"
+syn match autoitStyle "\$TCS_HOTTRACK"
+syn match autoitStyle "\$TCS_VERTICAL"
+syn match autoitStyle "\$TCS_TABS"
+syn match autoitStyle "\$TCS_BUTTONS"
+syn match autoitStyle "\$TCS_SINGLELINE"
+syn match autoitStyle "\$TCS_MULTILINE"
+syn match autoitStyle "\$TCS_RIGHTJUSTIFY"
+syn match autoitStyle "\$TCS_FIXEDWIDTH"
+syn match autoitStyle "\$TCS_RAGGEDRIGHT"
+syn match autoitStyle "\$TCS_FOCUSONBUTTONDOWN"
+syn match autoitStyle "\$TCS_OWNERDRAWFIXED"
+syn match autoitStyle "\$TCS_TOOLTIPS"
+syn match autoitStyle "\$TCS_FOCUSNEVER"
 " avi clip
-sy match au3Style "\$ACS_AUTOPLAY"
-sy match au3Style "\$ACS_CENTER"
-sy match au3Style "\$ACS_TRANSPARENT"
-sy match au3Style "\$ACS_NONTRANSPARENT"
+syn match autoitStyle "\$ACS_AUTOPLAY"
+syn match autoitStyle "\$ACS_CENTER"
+syn match autoitStyle "\$ACS_TRANSPARENT"
+syn match autoitStyle "\$ACS_NONTRANSPARENT"
 " date
-sy match au3Style "\$DTS_UPDOWN"
-sy match au3Style "\$DTS_SHOWNONE"
-sy match au3Style "\$DTS_LONGDATEFORMAT"
-sy match au3Style "\$DTS_TIMEFORMAT"
-sy match au3Style "\$DTS_RIGHTALIGN"
-sy match au3Style "\$DTS_SHORTDATEFORMAT"
+syn match autoitStyle "\$DTS_UPDOWN"
+syn match autoitStyle "\$DTS_SHOWNONE"
+syn match autoitStyle "\$DTS_LONGDATEFORMAT"
+syn match autoitStyle "\$DTS_TIMEFORMAT"
+syn match autoitStyle "\$DTS_RIGHTALIGN"
+syn match autoitStyle "\$DTS_SHORTDATEFORMAT"
 " monthcal
-sy match au3Style "\$MCS_NOTODAY"
-sy match au3Style "\$MCS_NOTODAYCIRCLE"
-sy match au3Style "\$MCS_WEEKNUMBERS"
+syn match autoitStyle "\$MCS_NOTODAY"
+syn match autoitStyle "\$MCS_NOTODAYCIRCLE"
+syn match autoitStyle "\$MCS_WEEKNUMBERS"
 " treeview
-sy match au3Style "\$TVS_HASBUTTONS"
-sy match au3Style "\$TVS_HASLINES"
-sy match au3Style "\$TVS_LINESATROOT"
-sy match au3Style "\$TVS_DISABLEDRAGDROP"
-sy match au3Style "\$TVS_SHOWSELALWAYS"
-sy match au3Style "\$TVS_RTLREADING"
-sy match au3Style "\$TVS_NOTOOLTIPS"
-sy match au3Style "\$TVS_CHECKBOXES"
-sy match au3Style "\$TVS_TRACKSELECT"
-sy match au3Style "\$TVS_SINGLEEXPAND"
-sy match au3Style "\$TVS_FULLROWSELECT"
-sy match au3Style "\$TVS_NOSCROLL"
-sy match au3Style "\$TVS_NONEVENHEIGHT"
+syn match autoitStyle "\$TVS_HASBUTTONS"
+syn match autoitStyle "\$TVS_HASLINES"
+syn match autoitStyle "\$TVS_LINESATROOT"
+syn match autoitStyle "\$TVS_DISABLEDRAGDROP"
+syn match autoitStyle "\$TVS_SHOWSELALWAYS"
+syn match autoitStyle "\$TVS_RTLREADING"
+syn match autoitStyle "\$TVS_NOTOOLTIPS"
+syn match autoitStyle "\$TVS_CHECKBOXES"
+syn match autoitStyle "\$TVS_TRACKSELECT"
+syn match autoitStyle "\$TVS_SINGLEEXPAND"
+syn match autoitStyle "\$TVS_FULLROWSELECT"
+syn match autoitStyle "\$TVS_NOSCROLL"
+syn match autoitStyle "\$TVS_NONEVENHEIGHT"
 " slider
-sy match au3Style "\$TBS_AUTOTICKS"
-sy match au3Style "\$TBS_BOTH"
-sy match au3Style "\$TBS_BOTTOM"
-sy match au3Style "\$TBS_HORZ"
-sy match au3Style "\$TBS_VERT"
-sy match au3Style "\$TBS_NOTHUMB"
-sy match au3Style "\$TBS_NOTICKS"
-sy match au3Style "\$TBS_LEFT"
-sy match au3Style "\$TBS_RIGHT"
-sy match au3Style "\$TBS_TOP"
+syn match autoitStyle "\$TBS_AUTOTICKS"
+syn match autoitStyle "\$TBS_BOTH"
+syn match autoitStyle "\$TBS_BOTTOM"
+syn match autoitStyle "\$TBS_HORZ"
+syn match autoitStyle "\$TBS_VERT"
+syn match autoitStyle "\$TBS_NOTHUMB"
+syn match autoitStyle "\$TBS_NOTICKS"
+syn match autoitStyle "\$TBS_LEFT"
+syn match autoitStyle "\$TBS_RIGHT"
+syn match autoitStyle "\$TBS_TOP"
 " listview
-sy match au3Style "\$LVS_ICON"
-sy match au3Style "\$LVS_REPORT"
-sy match au3Style "\$LVS_SMALLICON"
-sy match au3Style "\$LVS_LIST"
-sy match au3Style "\$LVS_EDITLABELS"
-sy match au3Style "\$LVS_NOCOLUMNHEADER"
-sy match au3Style "\$LVS_NOSORTHEADER"
-sy match au3Style "\$LVS_SINGLESEL"
-sy match au3Style "\$LVS_SHOWSELALWAYS"
-sy match au3Style "\$LVS_SORTASCENDING"
-sy match au3Style "\$LVS_SORTDESCENDING"
+syn match autoitStyle "\$LVS_ICON"
+syn match autoitStyle "\$LVS_REPORT"
+syn match autoitStyle "\$LVS_SMALLICON"
+syn match autoitStyle "\$LVS_LIST"
+syn match autoitStyle "\$LVS_EDITLABELS"
+syn match autoitStyle "\$LVS_NOCOLUMNHEADER"
+syn match autoitStyle "\$LVS_NOSORTHEADER"
+syn match autoitStyle "\$LVS_SINGLESEL"
+syn match autoitStyle "\$LVS_SHOWSELALWAYS"
+syn match autoitStyle "\$LVS_SORTASCENDING"
+syn match autoitStyle "\$LVS_SORTDESCENDING"
 " listview extended
-sy match au3Style "\$LVS_EX_FULLROWSELECT"
-sy match au3Style "\$LVS_EX_GRIDLINES"
-sy match au3Style "\$LVS_EX_HEADERDRAGDROP"
-sy match au3Style "\$LVS_EX_TRACKSELECT"
-sy match au3Style "\$LVS_EX_CHECKBOXES"
-sy match au3Style "\$LVS_EX_BORDERSELECT"
-sy match au3Style "\$LVS_EX_DOUBLEBUFFER"
-sy match au3Style "\$LVS_EX_FLATSB"
-sy match au3Style "\$LVS_EX_MULTIWORKAREAS"
-sy match au3Style "\$LVS_EX_SNAPTOGRID"
-sy match au3Style "\$LVS_EX_SUBITEMIMAGES"
+syn match autoitStyle "\$LVS_EX_FULLROWSELECT"
+syn match autoitStyle "\$LVS_EX_GRIDLINES"
+syn match autoitStyle "\$LVS_EX_HEADERDRAGDROP"
+syn match autoitStyle "\$LVS_EX_TRACKSELECT"
+syn match autoitStyle "\$LVS_EX_CHECKBOXES"
+syn match autoitStyle "\$LVS_EX_BORDERSELECT"
+syn match autoitStyle "\$LVS_EX_DOUBLEBUFFER"
+syn match autoitStyle "\$LVS_EX_FLATSB"
+syn match autoitStyle "\$LVS_EX_MULTIWORKAREAS"
+syn match autoitStyle "\$LVS_EX_SNAPTOGRID"
+syn match autoitStyle "\$LVS_EX_SUBITEMIMAGES"
 
-" constants - must be defined after au3Variable - excludes styles
+" constants - must be defined after autoitVariable - excludes styles
 " constants - autoit options
-sy match au3Const "\$OPT_COORDSRELATIVE"
-sy match au3Const "\$OPT_COORDSABSOLUTE"
-sy match au3Const "\$OPT_COORDSCLIENT"
-sy match au3Const "\$OPT_ERRORSILENT"
-sy match au3Const "\$OPT_ERRORFATAL"
-sy match au3Const "\$OPT_CAPSNOSTORE"
-sy match au3Const "\$OPT_CAPSSTORE"
-sy match au3Const "\$OPT_MATCHSTART"
-sy match au3Const "\$OPT_MATCHANY"
-sy match au3Const "\$OPT_MATCHEXACT"
-sy match au3Const "\$OPT_MATCHADVANCED"
+syn match autoitConst "\$OPT_COORDSRELATIVE"
+syn match autoitConst "\$OPT_COORDSABSOLUTE"
+syn match autoitConst "\$OPT_COORDSCLIENT"
+syn match autoitConst "\$OPT_ERRORSILENT"
+syn match autoitConst "\$OPT_ERRORFATAL"
+syn match autoitConst "\$OPT_CAPSNOSTORE"
+syn match autoitConst "\$OPT_CAPSSTORE"
+syn match autoitConst "\$OPT_MATCHSTART"
+syn match autoitConst "\$OPT_MATCHANY"
+syn match autoitConst "\$OPT_MATCHEXACT"
+syn match autoitConst "\$OPT_MATCHADVANCED"
 " constants - file
-sy match au3Const "\$FC_NOOVERWRITE"
-sy match au3Const "\$FC_OVERWRITE"
-sy match au3Const "\$FT_MODIFIED"
-sy match au3Const "\$FT_CREATED"
-sy match au3Const "\$FT_ACCESSED"
-sy match au3Const "\$FO_READ"
-sy match au3Const "\$FO_APPEND"
-sy match au3Const "\$FO_OVERWRITE"
-sy match au3Const "\$EOF"
-sy match au3Const "\$FD_FILEMUSTEXIST"
-sy match au3Const "\$FD_PATHMUSTEXIST"
-sy match au3Const "\$FD_MULTISELECT"
-sy match au3Const "\$FD_PROMPTCREATENEW"
-sy match au3Const "\$FD_PROMPTOVERWRITE"
+syn match autoitConst "\$FC_NOOVERWRITE"
+syn match autoitConst "\$FC_OVERWRITE"
+syn match autoitConst "\$FT_MODIFIED"
+syn match autoitConst "\$FT_CREATED"
+syn match autoitConst "\$FT_ACCESSED"
+syn match autoitConst "\$FO_READ"
+syn match autoitConst "\$FO_APPEND"
+syn match autoitConst "\$FO_OVERWRITE"
+syn match autoitConst "\$EOF"
+syn match autoitConst "\$FD_FILEMUSTEXIST"
+syn match autoitConst "\$FD_PATHMUSTEXIST"
+syn match autoitConst "\$FD_MULTISELECT"
+syn match autoitConst "\$FD_PROMPTCREATENEW"
+syn match autoitConst "\$FD_PROMPTOVERWRITE"
 " constants - keyboard
-sy match au3Const "\$KB_SENDSPECIAL"
-sy match au3Const "\$KB_SENDRAW"
-sy match au3Const "\$KB_CAPSOFF"
-sy match au3Const "\$KB_CAPSON"
+syn match autoitConst "\$KB_SENDSPECIAL"
+syn match autoitConst "\$KB_SENDRAW"
+syn match autoitConst "\$KB_CAPSOFF"
+syn match autoitConst "\$KB_CAPSON"
 " constants - message box
-sy match au3Const "\$MB_OK"
-sy match au3Const "\$MB_OKCANCEL"
-sy match au3Const "\$MB_ABORTRETRYIGNORE"
-sy match au3Const "\$MB_YESNOCANCEL"
-sy match au3Const "\$MB_YESNO"
-sy match au3Const "\$MB_RETRYCANCEL"
-sy match au3Const "\$MB_ICONHAND"
-sy match au3Const "\$MB_ICONQUESTION"
-sy match au3Const "\$MB_ICONEXCLAMATION"
-sy match au3Const "\$MB_ICONASTERISK"
-sy match au3Const "\$MB_DEFBUTTON1"
-sy match au3Const "\$MB_DEFBUTTON2"
-sy match au3Const "\$MB_DEFBUTTON3"
-sy match au3Const "\$MB_APPLMODAL"
-sy match au3Const "\$MB_SYSTEMMODAL"
-sy match au3Const "\$MB_TASKMODAL"
-sy match au3Const "\$MB_TOPMOST"
-sy match au3Const "\$MB_RIGHTJUSTIFIED"
-sy match au3Const "\$IDTIMEOUT"
-sy match au3Const "\$IDOK"
-sy match au3Const "\$IDCANCEL"
-sy match au3Const "\$IDABORT"
-sy match au3Const "\$IDRETRY"
-sy match au3Const "\$IDIGNORE"
-sy match au3Const "\$IDYES"
-sy match au3Const "\$IDNO"
-sy match au3Const "\$IDTRYAGAIN"
-sy match au3Const "\$IDCONTINUE"
+syn match autoitConst "\$MB_OK"
+syn match autoitConst "\$MB_OKCANCEL"
+syn match autoitConst "\$MB_ABORTRETRYIGNORE"
+syn match autoitConst "\$MB_YESNOCANCEL"
+syn match autoitConst "\$MB_YESNO"
+syn match autoitConst "\$MB_RETRYCANCEL"
+syn match autoitConst "\$MB_ICONHAND"
+syn match autoitConst "\$MB_ICONQUESTION"
+syn match autoitConst "\$MB_ICONEXCLAMATION"
+syn match autoitConst "\$MB_ICONASTERISK"
+syn match autoitConst "\$MB_DEFBUTTON1"
+syn match autoitConst "\$MB_DEFBUTTON2"
+syn match autoitConst "\$MB_DEFBUTTON3"
+syn match autoitConst "\$MB_APPLMODAL"
+syn match autoitConst "\$MB_SYSTEMMODAL"
+syn match autoitConst "\$MB_TASKMODAL"
+syn match autoitConst "\$MB_TOPMOST"
+syn match autoitConst "\$MB_RIGHTJUSTIFIED"
+syn match autoitConst "\$IDTIMEOUT"
+syn match autoitConst "\$IDOK"
+syn match autoitConst "\$IDCANCEL"
+syn match autoitConst "\$IDABORT"
+syn match autoitConst "\$IDRETRY"
+syn match autoitConst "\$IDIGNORE"
+syn match autoitConst "\$IDYES"
+syn match autoitConst "\$IDNO"
+syn match autoitConst "\$IDTRYAGAIN"
+syn match autoitConst "\$IDCONTINUE"
 " constants - progress and splash
-sy match au3Const "\$DLG_NOTITLE"
-sy match au3Const "\$DLG_NOTONTOP"
-sy match au3Const "\$DLG_TEXTLEFT"
-sy match au3Const "\$DLG_TEXTRIGHT"
-sy match au3Const "\$DLG_MOVEABLE"
-sy match au3Const "\$DLG_TEXTVCENTER"
+syn match autoitConst "\$DLG_NOTITLE"
+syn match autoitConst "\$DLG_NOTONTOP"
+syn match autoitConst "\$DLG_TEXTLEFT"
+syn match autoitConst "\$DLG_TEXTRIGHT"
+syn match autoitConst "\$DLG_MOVEABLE"
+syn match autoitConst "\$DLG_TEXTVCENTER"
 " constants - tray tip
-sy match au3Const "\$TIP_ICONNONE"
-sy match au3Const "\$TIP_ICONASTERISK"
-sy match au3Const "\$TIP_ICONEXCLAMATION"
-sy match au3Const "\$TIP_ICONHAND"
-sy match au3Const "\$TIP_NOSOUND"
+syn match autoitConst "\$TIP_ICONNONE"
+syn match autoitConst "\$TIP_ICONASTERISK"
+syn match autoitConst "\$TIP_ICONEXCLAMATION"
+syn match autoitConst "\$TIP_ICONHAND"
+syn match autoitConst "\$TIP_NOSOUND"
 " constants - mouse
-sy match au3Const "\$IDC_UNKNOWN"
-sy match au3Const "\$IDC_APPSTARTING"
-sy match au3Const "\$IDC_ARROW"
-sy match au3Const "\$IDC_CROSS"
-sy match au3Const "\$IDC_HELP"
-sy match au3Const "\$IDC_IBEAM"
-sy match au3Const "\$IDC_ICON"
-sy match au3Const "\$IDC_NO"
-sy match au3Const "\$IDC_SIZE"
-sy match au3Const "\$IDC_SIZEALL"
-sy match au3Const "\$IDC_SIZENESW"
-sy match au3Const "\$IDC_SIZENS"
-sy match au3Const "\$IDC_SIZENWSE"
-sy match au3Const "\$IDC_SIZEWE"
-sy match au3Const "\$IDC_UPARROW"
-sy match au3Const "\$IDC_WAIT"
+syn match autoitConst "\$IDC_UNKNOWN"
+syn match autoitConst "\$IDC_APPSTARTING"
+syn match autoitConst "\$IDC_ARROW"
+syn match autoitConst "\$IDC_CROSS"
+syn match autoitConst "\$IDC_HELP"
+syn match autoitConst "\$IDC_IBEAM"
+syn match autoitConst "\$IDC_ICON"
+syn match autoitConst "\$IDC_NO"
+syn match autoitConst "\$IDC_SIZE"
+syn match autoitConst "\$IDC_SIZEALL"
+syn match autoitConst "\$IDC_SIZENESW"
+syn match autoitConst "\$IDC_SIZENS"
+syn match autoitConst "\$IDC_SIZENWSE"
+syn match autoitConst "\$IDC_SIZEWE"
+syn match autoitConst "\$IDC_UPARROW"
+syn match autoitConst "\$IDC_WAIT"
 " constants - process
-sy match au3Const "\$SD_LOGOFF"
-sy match au3Const "\$SD_SHUTDOWN"
-sy match au3Const "\$SD_REBOOT"
-sy match au3Const "\$SD_FORCE"
-sy match au3Const "\$SD_POWERDOWN"
+syn match autoitConst "\$SD_LOGOFF"
+syn match autoitConst "\$SD_SHUTDOWN"
+syn match autoitConst "\$SD_REBOOT"
+syn match autoitConst "\$SD_FORCE"
+syn match autoitConst "\$SD_POWERDOWN"
 " constants - string
-sy match au3Const "\$STR_NOCASESENSE"
-sy match au3Const "\$STR_CASESENSE"
-sy match au3Const "\STR_STRIPLEADING"
-sy match au3Const "\$STR_STRIPTRAILING"
-sy match au3Const "\$STR_STRIPSPACES"
-sy match au3Const "\$STR_STRIPALL"
+syn match autoitConst "\$STR_NOCASESENSE"
+syn match autoitConst "\$STR_CASESENSE"
+syn match autoitConst "\STR_STRIPLEADING"
+syn match autoitConst "\$STR_STRIPTRAILING"
+syn match autoitConst "\$STR_STRIPSPACES"
+syn match autoitConst "\$STR_STRIPALL"
 " constants - tray
-sy match au3Const "\$TRAY_ITEM_EXIT"
-sy match au3Const "\$TRAY_ITEM_PAUSE"
-sy match au3Const "\$TRAY_ITEM_FIRST"
-sy match au3Const "\$TRAY_CHECKED"
-sy match au3Const "\$TRAY_UNCHECKED"
-sy match au3Const "\$TRAY_ENABLE"
-sy match au3Const "\$TRAY_DISABLE"
-sy match au3Const "\$TRAY_FOCUS"
-sy match au3Const "\$TRAY_DEFAULT"
-sy match au3Const "\$TRAY_EVENT_SHOWICON"
-sy match au3Const "\$TRAY_EVENT_HIDEICON"
-sy match au3Const "\$TRAY_EVENT_FLASHICON"
-sy match au3Const "\$TRAY_EVENT_NOFLASHICON"
-sy match au3Const "\$TRAY_EVENT_PRIMARYDOWN"
-sy match au3Const "\$TRAY_EVENT_PRIMARYUP"
-sy match au3Const "\$TRAY_EVENT_SECONDARYDOWN"
-sy match au3Const "\$TRAY_EVENT_SECONDARYUP"
-sy match au3Const "\$TRAY_EVENT_MOUSEOVER"
-sy match au3Const "\$TRAY_EVENT_MOUSEOUT"
-sy match au3Const "\$TRAY_EVENT_PRIMARYDOUBLE"
-sy match au3Const "\$TRAY_EVENT_SECONDARYDOUBLE"
+syn match autoitConst "\$TRAY_ITEM_EXIT"
+syn match autoitConst "\$TRAY_ITEM_PAUSE"
+syn match autoitConst "\$TRAY_ITEM_FIRST"
+syn match autoitConst "\$TRAY_CHECKED"
+syn match autoitConst "\$TRAY_UNCHECKED"
+syn match autoitConst "\$TRAY_ENABLE"
+syn match autoitConst "\$TRAY_DISABLE"
+syn match autoitConst "\$TRAY_FOCUS"
+syn match autoitConst "\$TRAY_DEFAULT"
+syn match autoitConst "\$TRAY_EVENT_SHOWICON"
+syn match autoitConst "\$TRAY_EVENT_HIDEICON"
+syn match autoitConst "\$TRAY_EVENT_FLASHICON"
+syn match autoitConst "\$TRAY_EVENT_NOFLASHICON"
+syn match autoitConst "\$TRAY_EVENT_PRIMARYDOWN"
+syn match autoitConst "\$TRAY_EVENT_PRIMARYUP"
+syn match autoitConst "\$TRAY_EVENT_SECONDARYDOWN"
+syn match autoitConst "\$TRAY_EVENT_SECONDARYUP"
+syn match autoitConst "\$TRAY_EVENT_MOUSEOVER"
+syn match autoitConst "\$TRAY_EVENT_MOUSEOUT"
+syn match autoitConst "\$TRAY_EVENT_PRIMARYDOUBLE"
+syn match autoitConst "\$TRAY_EVENT_SECONDARYDOUBLE"
 " constants - stdio
-sy match au3Const "\$STDIN_CHILD"
-sy match au3Const "\$STDOUT_CHILD"
-sy match au3Const "\$STDERR_CHILD"
+syn match autoitConst "\$STDIN_CHILD"
+syn match autoitConst "\$STDOUT_CHILD"
+syn match autoitConst "\$STDERR_CHILD"
 " constants - color
-sy match au3Const "\$COLOR_BLACK"
-sy match au3Const "\$COLOR_SILVER"
-sy match au3Const "\$COLOR_GRAY"
-sy match au3Const "\$COLOR_WHITE"
-sy match au3Const "\$COLOR_MAROON"
-sy match au3Const "\$COLOR_RED"
-sy match au3Const "\$COLOR_PURPLE"
-sy match au3Const "\$COLOR_FUCHSIA"
-sy match au3Const "\$COLOR_GREEN"
-sy match au3Const "\$COLOR_LIME"
-sy match au3Const "\$COLOR_OLIVE"
-sy match au3Const "\$COLOR_YELLOW"
-sy match au3Const "\$COLOR_NAVY"
-sy match au3Const "\$COLOR_BLUE"
-sy match au3Const "\$COLOR_TEAL"
-sy match au3Const "\$COLOR_AQUA"
+syn match autoitConst "\$COLOR_BLACK"
+syn match autoitConst "\$COLOR_SILVER"
+syn match autoitConst "\$COLOR_GRAY"
+syn match autoitConst "\$COLOR_WHITE"
+syn match autoitConst "\$COLOR_MAROON"
+syn match autoitConst "\$COLOR_RED"
+syn match autoitConst "\$COLOR_PURPLE"
+syn match autoitConst "\$COLOR_FUCHSIA"
+syn match autoitConst "\$COLOR_GREEN"
+syn match autoitConst "\$COLOR_LIME"
+syn match autoitConst "\$COLOR_OLIVE"
+syn match autoitConst "\$COLOR_YELLOW"
+syn match autoitConst "\$COLOR_NAVY"
+syn match autoitConst "\$COLOR_BLUE"
+syn match autoitConst "\$COLOR_TEAL"
+syn match autoitConst "\$COLOR_AQUA"
 " constants - reg value type
-sy match au3Const "\$REG_NONE"
-sy match au3Const "\$REG_SZ"
-sy match au3Const "\$REG_EXPAND_SZ"
-sy match au3Const "\$REG_BINARY"
-sy match au3Const "\$REG_DWORD"
-sy match au3Const "\$REG_DWORD_BIG_ENDIAN"
-sy match au3Const "\$REG_LINK"
-sy match au3Const "\$REG_MULTI_SZ"
-sy match au3Const "\$REG_RESOURCE_LIST"
-sy match au3Const "\$REG_FULL_RESOURCE_DESCRIPTOR"
-sy match au3Const "\$REG_RESOURCE_REQUIREMENTS_LIST"
+syn match autoitConst "\$REG_NONE"
+syn match autoitConst "\$REG_SZ"
+syn match autoitConst "\$REG_EXPAND_SZ"
+syn match autoitConst "\$REG_BINARY"
+syn match autoitConst "\$REG_DWORD"
+syn match autoitConst "\$REG_DWORD_BIG_ENDIAN"
+syn match autoitConst "\$REG_LINK"
+syn match autoitConst "\$REG_MULTI_SZ"
+syn match autoitConst "\$REG_RESOURCE_LIST"
+syn match autoitConst "\$REG_FULL_RESOURCE_DESCRIPTOR"
+syn match autoitConst "\$REG_RESOURCE_REQUIREMENTS_LIST"
 " guiconstants - events and messages
-sy match au3Const "\$GUI_EVENT_CLOSE"
-sy match au3Const "\$GUI_EVENT_MINIMIZE"
-sy match au3Const "\$GUI_EVENT_RESTORE"
-sy match au3Const "\$GUI_EVENT_MAXIMIZE"
-sy match au3Const "\$GUI_EVENT_PRIMARYDOWN"
-sy match au3Const "\$GUI_EVENT_PRIMARYUP"
-sy match au3Const "\$GUI_EVENT_SECONDARYDOWN"
-sy match au3Const "\$GUI_EVENT_SECONDARYUP"
-sy match au3Const "\$GUI_EVENT_MOUSEMOVE"
-sy match au3Const "\$GUI_EVENT_RESIZED"
-sy match au3Const "\$GUI_EVENT_DROPPED"
-sy match au3Const "\$GUI_RUNDEFMSG"
+syn match autoitConst "\$GUI_EVENT_CLOSE"
+syn match autoitConst "\$GUI_EVENT_MINIMIZE"
+syn match autoitConst "\$GUI_EVENT_RESTORE"
+syn match autoitConst "\$GUI_EVENT_MAXIMIZE"
+syn match autoitConst "\$GUI_EVENT_PRIMARYDOWN"
+syn match autoitConst "\$GUI_EVENT_PRIMARYUP"
+syn match autoitConst "\$GUI_EVENT_SECONDARYDOWN"
+syn match autoitConst "\$GUI_EVENT_SECONDARYUP"
+syn match autoitConst "\$GUI_EVENT_MOUSEMOVE"
+syn match autoitConst "\$GUI_EVENT_RESIZED"
+syn match autoitConst "\$GUI_EVENT_DROPPED"
+syn match autoitConst "\$GUI_RUNDEFMSG"
 " guiconstants - state
-sy match au3Const "\$GUI_AVISTOP"
-sy match au3Const "\$GUI_AVISTART"
-sy match au3Const "\$GUI_AVICLOSE"
-sy match au3Const "\$GUI_CHECKED"
-sy match au3Const "\$GUI_INDETERMINATE"
-sy match au3Const "\$GUI_UNCHECKED"
-sy match au3Const "\$GUI_DROPACCEPTED"
-sy match au3Const "\$GUI_ACCEPTFILES"
-sy match au3Const "\$GUI_SHOW"
-sy match au3Const "\$GUI_HIDE"
-sy match au3Const "\$GUI_ENABLE"
-sy match au3Const "\$GUI_DISABLE"
-sy match au3Const "\$GUI_FOCUS"
-sy match au3Const "\$GUI_DEFBUTTON"
-sy match au3Const "\$GUI_EXPAND"
-sy match au3Const "\$GUI_ONTOP"
+syn match autoitConst "\$GUI_AVISTOP"
+syn match autoitConst "\$GUI_AVISTART"
+syn match autoitConst "\$GUI_AVICLOSE"
+syn match autoitConst "\$GUI_CHECKED"
+syn match autoitConst "\$GUI_INDETERMINATE"
+syn match autoitConst "\$GUI_UNCHECKED"
+syn match autoitConst "\$GUI_DROPACCEPTED"
+syn match autoitConst "\$GUI_DROPNOTACCEPTED"
+syn match autoitConst "\$GUI_ACCEPTFILES"
+syn match autoitConst "\$GUI_SHOW"
+syn match autoitConst "\$GUI_HIDE"
+syn match autoitConst "\$GUI_ENABLE"
+syn match autoitConst "\$GUI_DISABLE"
+syn match autoitConst "\$GUI_FOCUS"
+syn match autoitConst "\$GUI_NOFOCUS"
+syn match autoitConst "\$GUI_DEFBUTTON"
+syn match autoitConst "\$GUI_EXPAND"
+syn match autoitConst "\$GUI_ONTOP"
 " guiconstants - font
-sy match au3Const "\$GUI_FONTITALIC"
-sy match au3Const "\$GUI_FONTUNDER"
-sy match au3Const "\$GUI_FONTSTRIKE"
+syn match autoitConst "\$GUI_FONTITALIC"
+syn match autoitConst "\$GUI_FONTUNDER"
+syn match autoitConst "\$GUI_FONTSTRIKE"
 " guiconstants - resizing
-sy match au3Const "\$GUI_DOCKAUTO"
-sy match au3Const "\$GUI_DOCKLEFT"
-sy match au3Const "\$GUI_DOCKRIGHT"
-sy match au3Const "\$GUI_DOCKHCENTER"
-sy match au3Const "\$GUI_DOCKTOP"
-sy match au3Const "\$GUI_DOCKBOTTOM"
-sy match au3Const "\$GUI_DOCKVCENTER"
-sy match au3Const "\$GUI_DOCKWIDTH"
-sy match au3Const "\$GUI_DOCKHEIGHT"
-sy match au3Const "\$GUI_DOCKSIZE"
-sy match au3Const "\$GUI_DOCKMENUBAR"
-sy match au3Const "\$GUI_DOCKSTATEBAR"
-sy match au3Const "\$GUI_DOCKALL"
-sy match au3Const "\$GUI_DOCKBORDERS"
+syn match autoitConst "\$GUI_DOCKAUTO"
+syn match autoitConst "\$GUI_DOCKLEFT"
+syn match autoitConst "\$GUI_DOCKRIGHT"
+syn match autoitConst "\$GUI_DOCKHCENTER"
+syn match autoitConst "\$GUI_DOCKTOP"
+syn match autoitConst "\$GUI_DOCKBOTTOM"
+syn match autoitConst "\$GUI_DOCKVCENTER"
+syn match autoitConst "\$GUI_DOCKWIDTH"
+syn match autoitConst "\$GUI_DOCKHEIGHT"
+syn match autoitConst "\$GUI_DOCKSIZE"
+syn match autoitConst "\$GUI_DOCKMENUBAR"
+syn match autoitConst "\$GUI_DOCKSTATEBAR"
+syn match autoitConst "\$GUI_DOCKALL"
+syn match autoitConst "\$GUI_DOCKBORDERS"
 " guiconstants - graphic
-sy match au3Const "\$GUI_GR_CLOSE"
-sy match au3Const "\$GUI_GR_LINE"
-sy match au3Const "\$GUI_GR_BEZIER"
-sy match au3Const "\$GUI_GR_MOVE"
-sy match au3Const "\$GUI_GR_COLOR"
-sy match au3Const "\$GUI_GR_RECT"
-sy match au3Const "\$GUI_GR_ELLIPSE"
-sy match au3Const "\$GUI_GR_PIE"
-sy match au3Const "\$GUI_GR_DOT"
-sy match au3Const "\$GUI_GR_PIXEL"
-sy match au3Const "\$GUI_GR_HINT"
-sy match au3Const "\$GUI_GR_REFRESH"
-sy match au3Const "\$GUI_GR_PENSIZE"
-sy match au3Const "\$GUI_GR_NOBKCOLOR"
+syn match autoitConst "\$GUI_GR_CLOSE"
+syn match autoitConst "\$GUI_GR_LINE"
+syn match autoitConst "\$GUI_GR_BEZIER"
+syn match autoitConst "\$GUI_GR_MOVE"
+syn match autoitConst "\$GUI_GR_COLOR"
+syn match autoitConst "\$GUI_GR_RECT"
+syn match autoitConst "\$GUI_GR_ELLIPSE"
+syn match autoitConst "\$GUI_GR_PIE"
+syn match autoitConst "\$GUI_GR_DOT"
+syn match autoitConst "\$GUI_GR_PIXEL"
+syn match autoitConst "\$GUI_GR_HINT"
+syn match autoitConst "\$GUI_GR_REFRESH"
+syn match autoitConst "\$GUI_GR_PENSIZE"
+syn match autoitConst "\$GUI_GR_NOBKCOLOR"
 " guiconstants - control default styles
-sy match au3Const "\$GUI_SS_DEFAULT_AVI"
-sy match au3Const "\$GUI_SS_DEFAULT_BUTTON"
-sy match au3Const "\$GUI_SS_DEFAULT_CHECKBOX"
-sy match au3Const "\$GUI_SS_DEFAULT_COMBO"
-sy match au3Const "\$GUI_SS_DEFAULT_DATE"
-sy match au3Const "\$GUI_SS_DEFAULT_EDIT"
-sy match au3Const "\$GUI_SS_DEFAULT_GRAPHIC"
-sy match au3Const "\$GUI_SS_DEFAULT_GROUP"
-sy match au3Const "\$GUI_SS_DEFAULT_ICON"
-sy match au3Const "\$GUI_SS_DEFAULT_INPUT"
-sy match au3Const "\$GUI_SS_DEFAULT_LABEL"
-sy match au3Const "\$GUI_SS_DEFAULT_LIST"
-sy match au3Const "\$GUI_SS_DEFAULT_LISTVIEW"
-sy match au3Const "\$GUI_SS_DEFAULT_MONTHCAL"
-sy match au3Const "\$GUI_SS_DEFAULT_PIC"
-sy match au3Const "\$GUI_SS_DEFAULT_PROGRESS"
-sy match au3Const "\$GUI_SS_DEFAULT_RADIO"
-sy match au3Const "\$GUI_SS_DEFAULT_SLIDER"
-sy match au3Const "\$GUI_SS_DEFAULT_TAB"
-sy match au3Const "\$GUI_SS_DEFAULT_TREEVIEW"
-sy match au3Const "\$GUI_SS_DEFAULT_UPDOWN"
-sy match au3Const "\$GUI_SS_DEFAULT_GUI"
+syn match autoitConst "\$GUI_SS_DEFAULT_AVI"
+syn match autoitConst "\$GUI_SS_DEFAULT_BUTTON"
+syn match autoitConst "\$GUI_SS_DEFAULT_CHECKBOX"
+syn match autoitConst "\$GUI_SS_DEFAULT_COMBO"
+syn match autoitConst "\$GUI_SS_DEFAULT_DATE"
+syn match autoitConst "\$GUI_SS_DEFAULT_EDIT"
+syn match autoitConst "\$GUI_SS_DEFAULT_GRAPHIC"
+syn match autoitConst "\$GUI_SS_DEFAULT_GROUP"
+syn match autoitConst "\$GUI_SS_DEFAULT_ICON"
+syn match autoitConst "\$GUI_SS_DEFAULT_INPUT"
+syn match autoitConst "\$GUI_SS_DEFAULT_LABEL"
+syn match autoitConst "\$GUI_SS_DEFAULT_LIST"
+syn match autoitConst "\$GUI_SS_DEFAULT_LISTVIEW"
+syn match autoitConst "\$GUI_SS_DEFAULT_MONTHCAL"
+syn match autoitConst "\$GUI_SS_DEFAULT_PIC"
+syn match autoitConst "\$GUI_SS_DEFAULT_PROGRESS"
+syn match autoitConst "\$GUI_SS_DEFAULT_RADIO"
+syn match autoitConst "\$GUI_SS_DEFAULT_SLIDER"
+syn match autoitConst "\$GUI_SS_DEFAULT_TAB"
+syn match autoitConst "\$GUI_SS_DEFAULT_TREEVIEW"
+syn match autoitConst "\$GUI_SS_DEFAULT_UPDOWN"
+syn match autoitConst "\$GUI_SS_DEFAULT_GUI"
 " guiconstants - background color special flags
-sy match au3Const "\$GUI_BKCOLOR_DEFAULT"
-sy match au3Const "\$GUI_BKCOLOR_TRANSPARENT"
+syn match autoitConst "\$GUI_BKCOLOR_DEFAULT"
+syn match autoitConst "\$GUI_BKCOLOR_LV_ALTERNATE"
+syn match autoitConst "\$GUI_BKCOLOR_TRANSPARENT"
 
 " registry constants
-sy match au3Const "\"REG_BINARY\""
-sy match au3Const "\"REG_SZ\""
-sy match au3Const "\"REG_MULTI_SZ\""
-sy match au3Const "\"REG_EXPAND_SZ\""
-sy match au3Const "\"REG_DWORD\""
-
+syn match autoitConst "\([\"\']\)REG_BINARY\1"
+syn match autoitConst "\([\"\']\)REG_SZ\1"
+syn match autoitConst "\([\"\']\)REG_MULTI_SZ\1"
+syn match autoitConst "\([\"\']\)REG_EXPAND_SZ\1"
+syn match autoitConst "\([\"\']\)REG_DWORD\1"
 
 " Define the default highlighting.
 " Unused colors: Underlined, Ignore, Error, Todo
-  HiLink au3Function Statement  " yellow/yellow
-  HiLink au3Keyword Statement
-  HiLink au3Operator Operator
-  HiLink au3VarSelector Operator
-  HiLink au3Comment	Comment  " cyan/blue
-  HiLink au3Paren Comment
-  HiLink au3Comma Comment
-  HiLink au3Bracket Comment
-  HiLink au3Number Constant " magenta/red
-  HiLink au3String Constant
-  HiLink au3Quote Constant
-  HiLink au3Included Constant
-  HiLink au3Cont Special  " red/orange
-  HiLink au3DoubledSingles Special
-  HiLink au3DoubledDoubles Special
-  HiLink au3CommDelimiter PreProc  " blue/magenta
-  HiLink au3Include PreProc
-  HiLink au3Variable Identifier  " cyan/cyan
-  HiLink au3Builtin Type  " green/green
-  HiLink au3Option Type
-  HiLink au3Style Type
-  HiLink au3Const Type
-  HiLink au3Send Type
-
-  delcommand HiLink
-  sy sync fromstart
+hi def link autoitFunction Statement  " yellow/yellow
+hi def link autoitKeyword Statement
+hi def link autoitOperator Operator
+hi def link autoitVarSelector Operator
+hi def link autoitComment	Comment  " cyan/blue
+hi def link autoitParen Comment
+hi def link autoitComma Comment
+hi def link autoitBracket Comment
+hi def link autoitNumber Constant " magenta/red
+hi def link autoitString Constant
+hi def link autoitQuote Constant
+hi def link autoitIncluded Constant
+hi def link autoitCont Special  " red/orange
+hi def link autoitDoubledSingles Special
+hi def link autoitDoubledDoubles Special
+hi def link autoitCommDelimiter PreProc  " blue/magenta
+hi def link autoitInclude PreProc
+hi def link autoitVariable Identifier  " cyan/cyan
+hi def link autoitBuiltin Type  " green/green
+hi def link autoitOption Type
+hi def link autoitStyle Type
+hi def link autoitConst Type
+hi def link autoitSend Type
+syn sync minlines=50
