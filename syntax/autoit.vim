@@ -5,6 +5,8 @@
 " Authored By:	Riccardo Casini <ric@libero.it>
 " URL:		http://www.vim.org/scripts/script.php?script_id=1239
 " ChangeLog:	Please visit the script URL for detailed change information
+" 	v1.6 06/10/07 by Jared Breland <jbreland@legroom.net>
+" 		updated for AutoIt 3.2.4.9
 " 	v1.5 01/10/07 by Jared Breland <jbreland@legroom.net>
 " 		updated for AutoIt 3.2.2.0
 " 		updated constant and option strings to recognize ' and " quotes
@@ -24,10 +26,6 @@
 " 		added Options section
 " 	v1.1 03/15/05 by Jared Breland <jbreland@legroom.net>
 " 		updated for AutoIt 3.1.0
-
-" used inside floating points
-"setl iskeyword+=.
-"setl iskeyword+=+
 
 " AutoIt is not case dependent
 syn case ignore
@@ -129,12 +127,12 @@ syn keyword autoitFunction DllCall DllClose DllOpen DllStructCreate
 " registry management
 syn keyword autoitFunction RegDelete RegEnumKey RegEnumVal RegRead RegWrite
 " string management
-syn keyword autoitFunction StringAddCR StringFormat StringInStr StringIsAlNum
-	\ StringIsAlpha StringIsASCII StringIsDigit StringIsFloat StringIsInt
-	\ StringIsLower StringIsSpace StringIsUpper StringIsXDigit StringLeft
-	\ StringLen StringLower StringMid StringRegExp StringRegExpReplace
-	\ StringReplace StringRight StringSplit StringStripCR StringStripWS
-	\ StringTrimLeft StringTrimRight StringUpper
+syn keyword autoitFunction StringAddCR StringCompare StringFormat StringInStr
+	\ StringIsAlNum StringIsAlpha StringIsASCII StringIsDigit StringIsFloat
+	\ StringIsInt StringIsLower StringIsSpace StringIsUpper StringIsXDigit
+	\ StringLeft StringLen StringLower StringMid StringRegExp
+	\ StringRegExpReplace StringReplace StringRight StringSplit
+	\ StringStripCR StringStripWS StringTrimLeft StringTrimRight StringUpper
 " timer and delay
 syn keyword autoitFunction Sleep TimerInit TimerDiff
 " tray
@@ -143,9 +141,10 @@ syn keyword autoitFunction TrayCreateItem TrayCreateMenu TrayItemDelete
 	\ TrayItemSetState TrayItemSetText TrayGetMsg TraySetClick TraySetIcon
 	\ TraySetOnEvent TraySetPauseIcon TraySetState TraySetToolTip TrayTip
 " variables and conversions
-syn keyword autoitFunction Asc Assign Binary Chr Dec Eval Hex HWnd Int IsAdmin
-	\ IsArray IsBinaryString IsBool IsDeclared IsDllStruct IsFloat IsHWnd
-	\ IsInt IsKeyword IsNumber IsObj IsString Number String UBound
+syn keyword autoitFunction Asc AscW Assign Binary BinaryLen BinaryMid
+	\ BinaryToString Chr ChrW Dec Eval Hex HWnd Int IsAdmin IsArray IsBinary
+	\ IsBool IsDeclared IsDllStruct IsFloat IsHWnd IsInt IsKeyword IsNumber
+	\ IsObj IsString Number String StringToBinary UBound
 " window management
 syn keyword autoitFunction WinActivate WinActive WinClose WinExists WinFlash
 	\ WinGetCaretPos WinGetClassList WinGetClientSize WinGetHandle WinGetPos
@@ -425,6 +424,7 @@ syn match autoitBuiltin "@TempDir"
 syn match autoitBuiltin "@TRAY_ID"
 syn match autoitBuiltin "@TrayIconFlashing"
 syn match autoitBuiltin "@TrayIconVisible"
+syn match autoitBuiltin "@Unicode"
 syn match autoitBuiltin "@UserProfileDir"
 syn match autoitBuiltin "@UserName"
 syn match autoitBuiltin "@WDAY"
@@ -529,7 +529,7 @@ syn match autoitSend "{PRINTSCREEN}" contained
 syn match autoitSend "{LWIN}" contained
 syn match autoitSend "{RWIN}" contained
 syn match autoitSend "{NUMLOCK}" contained
-syn match autoitSend "{CTRLBREAK}" contained
+syn match autoitSend "{BREAK}" contained
 syn match autoitSend "{PAUSE}" contained
 syn match autoitSend "{CAPSLOCK}" contained
 syn match autoitSend "{NUMPAD0}" contained
