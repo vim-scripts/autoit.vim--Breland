@@ -5,6 +5,8 @@
 " Authored By:	Riccardo Casini <ric@libero.it>
 " URL:		http://www.vim.org/scripts/script.php?script_id=1239
 " ChangeLog:	Please visit the script URL for detailed change information
+" 	v1.7 02/24/08 by Jared Breland <jbreland@legroom.net>
+" 		updated for AutoIt 3.2.10.0
 " 	v1.6 06/10/07 by Jared Breland <jbreland@legroom.net>
 " 		updated for AutoIt 3.2.4.9
 " 	v1.5 01/10/07 by Jared Breland <jbreland@legroom.net>
@@ -75,7 +77,7 @@ syn keyword autoitFunction Beep PixelChecksum PixelGetColor PixelSearch
 " gui reference
 syn keyword autoitFunction GUICreate GUIDelete GUICtrlGetHandle GUICtrlGetState
 	\ GUICtrlRead GUICtrlRecvMsg GUICtrlSendMsg GUICtrlSendToDummy
-	\ GUIGetCursorInfo GUIGetMsg GUIRegisterMsg GUIStartGroup GUISwitch
+	\ GUIGetCursorInfo GUIGetMsg GUIGetStyle GUIRegisterMsg GUIStartGroup GUISwitch
 syn keyword autoitFunction GUICtrlCreateAvi GUICtrlCreateButton
 	\ GUICtrlCreateCheckbox GUICtrlCreateCombo GUICtrlCreateContextMenu
 	\ GUICtrlCreateDate GUICtrlCreateDummy GUICtrlCreateEdit
@@ -95,7 +97,7 @@ syn keyword autoitFunction GUICtrlRegisterListViewSort GUICtrlSetBkColor
 syn keyword autoitFunction GUISetBkColor GUISetCoord GUISetCursor GUISetFont
 	\ GUISetHelp GUISetIcon GUISetOnEvent GUISetState
 " keyboard control
-syn keyword autoitFunction HotKeySet Send
+syn keyword autoitFunction HotKeySet Send SendKeepActive
 " math
 syn keyword autoitFunction Abs ACos ASin ATan BitAND BitNOT BitOR BitRotate
 	\ BitShift BitXOR Cos Ceiling Exp Floor Log Mod Random Round Sin Sqrt
@@ -106,7 +108,7 @@ syn keyword autoitFunction InputBox MsgBox ProgressOff ProgressOn ProgressSet
 " miscellaneous
 syn keyword autoitFunction AdlibDisable AdlibEnable AutoItSetOption
 	\ AutoItWinGetTitle AutoItWinSetTitle BlockInput Break Call CDTray
-	\ Execute Opt SetError SetExtended
+	\ Execute Opt SetError SetExtended VarGetType
 " mouse control
 syn keyword autoitFunction MouseClick MouseClickDrag MouseDown MouseGetCursor
 	\ MouseGetPos MouseMove MouseUp MouseWheel
@@ -118,9 +120,10 @@ syn keyword autoitFunction FtpSetProxy HttpSetProxy InetGet InetGetSize Ping
 " obj/com reference
 syn keyword autoitFunction ObjCreate ObjEvent ObjGet ObjName
 " process management
-syn keyword autoitFunction DllCall DllClose DllOpen DllStructCreate
-	\ DllStructGetData DllStructGetPtr DllStructGetSize DllStructSetData
-	\ ProcessClose ProcessExists ProcessSetPriority ProcessList ProcessWait
+syn keyword autoitFunction DllCall DllCallbackFree DllCallbackGetPtr
+	\ DllCallbackRegister DllClose DllOpen DllStructCreate DllStructGetData
+	\ DllStructGetPtr DllStructGetSize DllStructSetData ProcessClose
+	\ ProcessExists ProcessGetStats ProcessSetPriority ProcessList ProcessWait
 	\ ProcessWaitClose Run RunAsSet RunWait ShellExecute ShellExecuteWait
 	\ Shutdown
 	" removed from 3.2.0 docs - PluginClose PluginOpen
@@ -155,7 +158,7 @@ syn keyword autoitFunction WinActivate WinActive WinClose WinExists WinFlash
 syn keyword autoitFunction ControlClick ControlCommand ControlDisable
 	\ ControlEnable ControlFocus ControlGetFocus ControlGetHandle
 	\ ControlGetPos ControlGetText ControlHide ControlListView ControlMove
-	\ ControlSend ControlSetText ControlShow StatusBarGetText
+	\ ControlSend ControlSetText ControlShow ControlTreeView StatusBarGetText
 
 " user defined functions
 " array
@@ -347,6 +350,7 @@ syn match autoitBuiltin "@AppData\(Common\)\=Dir"
 syn match autoitBuiltin "@AutoItExe"
 syn match autoitBuiltin "@AutoItPID"
 syn match autoitBuiltin "@AutoItVersion"
+syn match autoitBuiltin "@AutoItX64"
 syn match autoitBuiltin "@COM_EventObj"
 syn match autoitBuiltin "@CommonFilesDir"
 syn match autoitBuiltin "@Compiled"
