@@ -1,10 +1,12 @@
 " Vim syntax file
 "
-" Language:	AutoIt v3 (http://www.autoitscript.com/autoit3/)
+" Language:		AutoIt v3 (http://www.autoitscript.com/autoit3/)
 " Maintainer:	Jared Breland <jbreland@legroom.net>
 " Authored By:	Riccardo Casini <ric@libero.it>
-" URL:		http://www.vim.org/scripts/script.php?script_id=1239
+" URL:			http://www.vim.org/scripts/script.php?script_id=1239
 " ChangeLog:	Please visit the script URL for detailed change information
+" 	v1.8 10/09/08 by Jared Breland <jbreland@legroom.net>
+" 		updated for AutoIt 3.2.12.1
 " 	v1.7 02/24/08 by Jared Breland <jbreland@legroom.net>
 " 		updated for AutoIt 3.2.10.0
 " 	v1.6 06/10/07 by Jared Breland <jbreland@legroom.net>
@@ -70,7 +72,7 @@ syn keyword autoitFunction FileChangeDir FileClose FileCopy FileCreateNTFSLink
 	\ FileSetTime FileWrite FileWriteLine
 syn keyword autoitFunction IniDelete IniRead IniReadSection IniReadSectionNames
 	\ IniRenameSection IniWrite IniWriteSection
-syn keyword autoitFunction StderrRead StdinWrite StdoutRead
+syn keyword autoitFunction StderrRead StdioClose StdinWrite StdoutRead
 " graphic and sound
 syn keyword autoitFunction Beep PixelChecksum PixelGetColor PixelSearch
 	\ SoundPlay SoundSetWaveVolume
@@ -89,11 +91,11 @@ syn keyword autoitFunction GUICtrlCreateAvi GUICtrlCreateButton
 	\ GUICtrlCreateSlider GUICtrlCreateTab GUICtrlCreateTabItem
 	\ GUICtrlCreateTreeView GUICtrlCreateTreeViewItem
 	\ GUICtrlCreateUpDown GUICtrlDelete
-syn keyword autoitFunction GUICtrlRegisterListViewSort GUICtrlSetBkColor
-	\ GUICtrlSetColor GUICtrlSetCursor GUICtrlSetData GUICtrlSetFont
-	\ GUICtrlSetGraphic GUICtrlSetImage GUICtrlSetLimit GUICtrlSetOnEvent
-	\ GUICtrlSetPos GUICtrlSetResizing GUICtrlSetState GUICtrlSetStyle
-	\ GUICtrlSetTip
+syn keyword autoitFunction GUICtrlRegisterListViewSort GUISetAccelerators
+	\ GUICtrlSetBkColor GUICtrlSetColor GUICtrlSetCursor GUICtrlSetData
+	\ GUICtrlSetDefBkColor GUICtrlSetDefColor GUICtrlSetFont GUICtrlSetGraphic
+	\ GUICtrlSetImage GUICtrlSetLimit GUICtrlSetOnEvent GUICtrlSetPos
+	\ GUICtrlSetResizing GUICtrlSetState GUICtrlSetStyle GUICtrlSetTip
 syn keyword autoitFunction GUISetBkColor GUISetCoord GUISetCursor GUISetFont
 	\ GUISetHelp GUISetIcon GUISetOnEvent GUISetState
 " keyboard control
@@ -124,8 +126,7 @@ syn keyword autoitFunction DllCall DllCallbackFree DllCallbackGetPtr
 	\ DllCallbackRegister DllClose DllOpen DllStructCreate DllStructGetData
 	\ DllStructGetPtr DllStructGetSize DllStructSetData ProcessClose
 	\ ProcessExists ProcessGetStats ProcessSetPriority ProcessList ProcessWait
-	\ ProcessWaitClose Run RunAsSet RunWait ShellExecute ShellExecuteWait
-	\ Shutdown
+	\ ProcessWaitClose Run RunAs RunAsWait RunWait ShellExecute ShellExecuteWait Shutdown
 	" removed from 3.2.0 docs - PluginClose PluginOpen
 " registry management
 syn keyword autoitFunction RegDelete RegEnumKey RegEnumVal RegRead RegWrite
@@ -350,6 +351,7 @@ syn match autoitBuiltin "@AppData\(Common\)\=Dir"
 syn match autoitBuiltin "@AutoItExe"
 syn match autoitBuiltin "@AutoItPID"
 syn match autoitBuiltin "@AutoItVersion"
+syn match autoitBuiltin "@AutoItUnicode"
 syn match autoitBuiltin "@AutoItX64"
 syn match autoitBuiltin "@COM_EventObj"
 syn match autoitBuiltin "@CommonFilesDir"
@@ -428,7 +430,6 @@ syn match autoitBuiltin "@TempDir"
 syn match autoitBuiltin "@TRAY_ID"
 syn match autoitBuiltin "@TrayIconFlashing"
 syn match autoitBuiltin "@TrayIconVisible"
-syn match autoitBuiltin "@Unicode"
 syn match autoitBuiltin "@UserProfileDir"
 syn match autoitBuiltin "@UserName"
 syn match autoitBuiltin "@WDAY"
@@ -601,7 +602,6 @@ syn match autoitVariable "$\w\+" contains=autoitVarSelector
 
 " options - must be defined after autoitStrings
 syn match autoitOption "\([\"\']\)CaretCoordMode\1"
-syn match autoitOption "\([\"\']\)ColorMode\1"
 syn match autoitOption "\([\"\']\)ExpandEnvStrings\1"
 syn match autoitOption "\([\"\']\)ExpandVarStrings\1"
 syn match autoitOption "\([\"\']\)FtpBinaryMode\1"
@@ -618,7 +618,6 @@ syn match autoitOption "\([\"\']\)MouseCoordMode\1"
 syn match autoitOption "\([\"\']\)MustDeclareVars\1"
 syn match autoitOption "\([\"\']\)OnExitFunc\1"
 syn match autoitOption "\([\"\']\)PixelCoordMode\1"
-syn match autoitOption "\([\"\']\)RunErrorsFatal\1"
 syn match autoitOption "\([\"\']\)SendAttachMode\1"
 syn match autoitOption "\([\"\']\)SendCapslockMode\1"
 syn match autoitOption "\([\"\']\)SendKeyDelay\1"
