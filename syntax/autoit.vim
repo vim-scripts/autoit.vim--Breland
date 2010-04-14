@@ -5,6 +5,8 @@
 " Authored By:	Riccardo Casini <ric@libero.it>
 " URL:			http://www.vim.org/scripts/script.php?script_id=1239
 " ChangeLog:	Please visit the script URL for detailed change information
+" 	v1.10 04/14/10 by Jared Breland <jbreland@legroom.net>
+" 		updated for AutoIt 3.3.6.0
 " 	v1.9 05/17/09 by Jared Breland <jbreland@legroom.net>
 " 		updated for AutoIt 3.3.0.0
 " 		added the MANY new constants and UDFs added in recent versions
@@ -39,7 +41,7 @@ syn case ignore
 
 " Definitions for AutoIt reserved keywords
 syn keyword autoitKeyword Default False True
-syn keyword autoitKeyword Const Dim Global Local ReDim
+syn keyword autoitKeyword Const Dim Global Local ReDim Static
 syn keyword autoitKeyword If Else ElseIf Then EndIf
 syn keyword autoitKeyword Select Switch Case EndSelect EndSwitch
 syn keyword autoitKeyword Enum For In To Step Next
@@ -51,11 +53,13 @@ syn match autoitIncluded display contained "<[^>]*>"
 syn match autoitInclude	display "^\s*#\s*include\>\s*["<]"
 	\ contains=autoitIncluded,autoitString
 syn match autoitInclude "^\s*#include-once\>"
+syn match autoitInclude "^\s*#NoAutoIt3Execute\>"
 syn match autoitInclude "^\s*#NoTrayIcon\>"
+syn match autoitInclude "^\s*#OnAutoItStartRegister\>"
 syn match autoitInclude "^\s*#RequireAdmin\>"
 
 " user-defined functions
-syn keyword autoitKeyword Func ByRef EndFunc Return OnAutoItStart OnAutoItExit
+syn keyword autoitKeyword Func ByRef EndFunc Return
 
 " built-in functions
 " environment management
@@ -68,11 +72,11 @@ syn keyword autoitFunction DriveGetDrive DriveGetFileSystem DriveGetLabel
 	\ DriveSetLabel DriveSpaceFree DriveSpaceTotal DriveStatus
 syn keyword autoitFunction FileChangeDir FileClose FileCopy FileCreateNTFSLink
 	\ FileCreateShortcut FileDelete FileExists FileFindFirstFile
-	\ FileFindNextFile FileGetAttrib FileGetLongName FileGetShortcut
-	\ FileGetShortName FileGetSize FileGetTime FileGetVersion FileInstall
-	\ FileMove FileOpen FileOpenDialog FileRead FileReadLine FileRecycle
-	\ FileRecycleEmpty FileSaveDialog FileSelectFolder FileSetAttrib
-	\ FileSetTime FileWrite FileWriteLine
+	\ FileFindNextFile FileFlush FileGetAttrib FileGetEncoding FileGetLongName
+	\ FileGetPos FileGetShortcut FileGetShortName FileGetSize FileGetTime
+	\ FileGetVersion FileInstall FileMove FileOpen FileOpenDialog FileRead
+	\ FileReadLine FileRecycle FileRecycleEmpty FileSaveDialog FileSelectFolder
+	\ FileSetAttrib FileSetPos FileSetTime FileWrite FileWriteLine
 syn keyword autoitFunction IniDelete IniRead IniReadSection IniReadSectionNames
 	\ IniRenameSection IniWrite IniWriteSection
 syn keyword autoitFunction StderrRead StdioClose StdinWrite StdoutRead
@@ -111,17 +115,16 @@ syn keyword autoitFunction Abs ACos ASin ATan BitAND BitNOT BitOR BitRotate
 syn keyword autoitFunction InputBox MsgBox ProgressOff ProgressOn ProgressSet
 	\ SplashImageOn SplashOff SplashTextOn ToolTip
 " miscellaneous
-syn keyword autoitFunction AdlibDisable AdlibEnable AutoItSetOption
-	\ AutoItWinGetTitle AutoItWinSetTitle BlockInput Break Call CDTray
-	\ Execute Opt SetError SetExtended VarGetType
+syn keyword autoitFunction AutoItSetOption AutoItWinGetTitle AutoItWinSetTitle
+	\ BlockInput Break Call CDTray Execute Opt SetError SetExtended VarGetType
 " mouse control
 syn keyword autoitFunction MouseClick MouseClickDrag MouseDown MouseGetCursor
 	\ MouseGetPos MouseMove MouseUp MouseWheel
 " network
-syn keyword autoitFunction FtpSetProxy HttpSetProxy InetGet InetGetSize Ping
-	\ TCPAccept TCPCloseSocket TCPConnect TCPListen TCPNameToIp TCPRecv
-	\ TCPSend TCPShutDown TCPStartup UDPBind UDPCloseSocket UDPOpen UDPRecv
-	\ UDPSend UDPShutdown UDPStartup
+syn keyword autoitFunction FtpSetProxy HttpSetProxy HttpSetUserAgent InetClose
+	\ InetGet InetGetInfo InetGetSize InetRead Ping TCPAccept TCPCloseSocket
+	\ TCPConnect TCPListen TCPNameToIp TCPRecv TCPSend TCPShutDown TCPStartup
+	\ UDPBind UDPCloseSocket UDPOpen UDPRecv UDPSend UDPShutdown UDPStartup
 " obj/com reference
 syn keyword autoitFunction ObjCreate ObjEvent ObjGet ObjName
 " process management
@@ -184,6 +187,10 @@ syn keyword autoitFunction _ClipBoard_ChangeChain _ClipBoard_Close
 " color
 syn keyword autoitFunction _ColorConvertHSLtoRGB _ColorConvertRGBtoHSL
 	\ _ColorgetBlue _ColorGetGreen _ColorGetRed
+" crypt
+syn keyword autoitFunction _Crypt_Startup _Crypt_Shutdown _Crypt_DecryptData
+	\ _Crypt_DecryptFile _Crypt_DeriveKey _Crypt_DestroyKey _Crypt_EncryptData
+	\ _Crypt_EncryptFile _Crypt_HashData _Crypt_HashFile
 " date
 syn keyword autoitFunction _Date_Time_CompareFileName
 	\ _Date_Time_DOSDateTimeToArray _Date_Time_DOSDateTimeToFileTime
@@ -208,7 +215,7 @@ syn keyword autoitFunction _Date_Time_CompareFileName
 	\ _DateToMonth _DayValueToDate _Now _NowCalc _NowCalcDate _NowDate _NowTime
 	\ _SetDate _SetTime _TicksToTime _TimeToTicks _WeekNumberISO
 " debug
-syn keyword autoitFunction _DebugBugReportEnv _DebugOut _DebugSetup
+syn keyword autoitFunction _Assert _DebugBugReportEnv _DebugOut _DebugSetup
 " eventlog
 syn keyword autoitFunction _EventLog__Backup _EventLog__Clear _EventLog__Close
 	\ _EventLog__Count _EventLog__DeregisterSource _EventLog__Full
@@ -228,6 +235,15 @@ syn keyword autoitFunction _FileCountLines _FileCreate _FileListToArray
 	\ _FilePrint _FileReadToArray _FileWriteFromArray _FileWriteLog
 	\ _FileWriteToLine _PathFull _PathGetRelative _PathMake _PathSplit
 	\ _ReplaceStringInFile _TempFile
+" ftpex
+syn keyword autoitFunction _FTP_Close _FTP_Command _FTP_Connect _FTP_DecodeInternetStatus
+	\ _FTP_DirCreate _FTP_DirDelete _FTP_DirGetCurrent _FTP_DirPutContents
+	\ _FTP_DirSetCurrent _FTP_FileClose _FTP_FileDelete _FTP_FileGet
+	\ _FTP_FileGetSize _FTP_FileOpen _FTP_FilePut _FTP_FileRead _FTP_FileRename
+	\ _FTP_FileTimeLoHiToStr _FTP_FindFileClose _FTP_FindFileFirst
+	\ _FTP_FindFileNext _FTP_GetLastResponseInfo _FTP_ListToArray
+	\ _FTP_ListToArray2D _FTP_ListToArrayEx _FTP_Open _FTP_ProgressDownload
+	\ _FTP_ProgressUpload _FTP_SetStatusCallback
 " gdiplus
 syn keyword autoitFunction _GDIPlus_ArrowCapCreate _GDIPlus_ArrowCapDispose
 	\ _GDIPlus_ArrowCapGetFillState _GDIPlus_ArrowCapGetHeight
@@ -238,28 +254,30 @@ syn keyword autoitFunction _GDIPlus_ArrowCapCreate _GDIPlus_ArrowCapDispose
 	\ _GDIPlus_BitmapCreateFromGraphics _GDIPlus_BitmapCreateFromHBITMAP
 	\ _GDIPlus_BitmapCreateHBITMAPFromBitmap _GDIPlus_BitmapDispose
 	\ _GDIPlus_BitmapLockBits _GDIPlus_BitmapUnlockBits _GDIPlus_BrushClone
-	\ _GDIPlus_BrushCreateSolid _GDIPlus_BrushDispose _GDIPlus_BrushGetType
-	\ _GDIPlus_CustomLineCapDispose _GDIPlus_Decoders _GDIPlus_DecodersGetCount
-	\ _GDIPlus_DecodersGetSize _GDIPlus_DrawImagePoints _GDIPlus_Encoders
-	\ _GDIPlus_EncodersGetCLSID _GDIPlus_EncodersGetCount
-	\ _GDIPlus_EncodersGetParamList _GDIPlus_EncodersGetParamListSize
-	\ _GDIPlus_EncodersGetSize _GDIPlus_FontCreate _GDIPlus_FontDispose
-	\ _GDIPlus_FontFamilyCreate _GDIPlus_FontFamilyDispose
-	\ _GDIPlus_GraphicsClear _GDIPlus_GraphicsCreateFromHDC
-	\ _GDIPlus_GraphicsCreateFromHWND _GDIPlus_GraphicsDispose
-	\ _GDIPlus_GraphicsDrawArc _GDIPlus_GraphicsDrawBezier
-	\ _GDIPlus_GraphicsDrawClosedCurve _GDIPlus_GraphicsDrawCurve
-	\ _GDIPlus_GraphicsDrawEllipse _GDIPlus_GraphicsDrawImage
-	\ _GDIPlus_GraphicsDrawImageRect _GDIPlus_GraphicsDrawImageRectRect
-	\ _GDIPlus_GraphicsDrawLine _GDIPlus_GraphicsDrawPie
-	\ _GDIPlus_GraphicsDrawPolygon _GDIPlus_GraphicsDrawRect
-	\ _GDIPlus_GraphicsDrawString _GDIPlus_GraphicsDrawStringEx
-	\ _GDIPlus_GraphicsFillClosedCurve _GDIPlus_GraphicsFillEllipse
-	\ _GDIPlus_GraphicsFillPie _GDIPlus_GraphicsFillPolygon
-	\ _GDIPlus_GraphicsFillRect _GDIPlus_GraphicsGetDC
-	\ _GDIPlus_GraphicsGetSmoothingMode _GDIPlus_GraphicsMeasureString
-	\ _GDIPlus_GraphicsReleaseDC _GDIPlus_GraphicsSetSmoothingMode
-	\ _GDIPlus_GraphicsSetTransform _GDIPlus_ImageDispose _GDIPlus_ImageGetFlags
+	\ _GDIPlus_BrushCreateSolid _GDIPlus_BrushDispose
+	\ _GDIPlus_BrushGetSolidColor _GDIPlus_BrushGetType
+	\ _GDIPlus_BrushSetSolidColor _GDIPlus_CustomLineCapDispose
+	\ _GDIPlus_Decoders _GDIPlus_DecodersGetCount _GDIPlus_DecodersGetSize
+	\ _GDIPlus_DrawImagePoints _GDIPlus_Encoders _GDIPlus_EncodersGetCLSID
+	\ _GDIPlus_EncodersGetCount _GDIPlus_EncodersGetParamList
+	\ _GDIPlus_EncodersGetParamListSize _GDIPlus_EncodersGetSize
+	\ _GDIPlus_FontCreate _GDIPlus_FontDispose _GDIPlus_FontFamilyCreate
+	\ _GDIPlus_FontFamilyDispose _GDIPlus_GraphicsClear
+	\ _GDIPlus_GraphicsCreateFromHDC _GDIPlus_GraphicsCreateFromHWND
+	\ _GDIPlus_GraphicsDispose _GDIPlus_GraphicsDrawArc
+	\ _GDIPlus_GraphicsDrawBezier _GDIPlus_GraphicsDrawClosedCurve
+	\ _GDIPlus_GraphicsDrawCurve _GDIPlus_GraphicsDrawEllipse
+	\ _GDIPlus_GraphicsDrawImage _GDIPlus_GraphicsDrawImageRect
+	\ _GDIPlus_GraphicsDrawImageRectRect _GDIPlus_GraphicsDrawLine
+	\ _GDIPlus_GraphicsDrawPie _GDIPlus_GraphicsDrawPolygon
+	\ _GDIPlus_GraphicsDrawRect _GDIPlus_GraphicsDrawString
+	\ _GDIPlus_GraphicsDrawStringEx _GDIPlus_GraphicsFillClosedCurve
+	\ _GDIPlus_GraphicsFillEllipse _GDIPlus_GraphicsFillPie
+	\ _GDIPlus_GraphicsFillPolygon _GDIPlus_GraphicsFillRect
+	\ _GDIPlus_GraphicsGetDC _GDIPlus_GraphicsGetSmoothingMode
+	\ _GDIPlus_GraphicsMeasureString _GDIPlus_GraphicsReleaseDC
+	\ _GDIPlus_GraphicsSetSmoothingMode _GDIPlus_GraphicsSetTransform
+	\ _GDIPlus_ImageDispose _GDIPlus_ImageGetFlags
 	\ _GDIPlus_ImageGetGraphicsContext _GDIPlus_ImageGetHeight
 	\ _GDIPlus_ImageGetHorizontalResolution _GDIPlus_ImageGetPixelFormat
 	\ _GDIPlus_ImageGetRawFormat _GDIPlus_ImageGetType
@@ -908,13 +926,13 @@ syn keyword autoitFunction _SQLite_Changes _SQLite_Close
 	\ _SQLite_Escape _SQLite_Exec _SQLite_FetchData _SQLite_FetchNames
 	\ _SQLite_GetTable _SQLite_GetTable2D _SQLite_LastInsertRowID
 	\ _SQLite_LibVersion _SQLite_Open _SQLite_Query _SQLite_QueryFinalize
-	\ _SQLite_QueryReset _SQLite_QuerySingleRow _SQLite_SaveMode
+	\ _SQLite_QueryReset _SQLite_QuerySingleRow _SQLite_SafeMode
 	\ _SQLite_SetTimeout _SQLite_Shutdown _SQLite_SQLiteExe _SQLite_Startup
 	\ _SQLite_TotalChanges
 " string
-syn keyword autoitFunction _HexToString _StringAddThousandsSep _StringBetween
-	\ _StringEncrypt _StringExplode _StringInsert _StringProper _StringRepeat
-	\ _StringReverse _StringToHex
+syn keyword autoitFunction _HexToString _StringBetween _StringEncrypt
+	\ _StringExplode _StringInsert _StringProper _StringRepeat _StringReverse
+	\ _StringToHex
 " timers
 syn keyword autoitFunction _Timer_Diff _Timer_GetIdleTime _Timer_GetTimerID _Timer_Init _Timer_KillAllTimers _Timer_KillTimer _Timer_SetTimer
 " visa
@@ -923,12 +941,12 @@ syn keyword autoitFunction _viClose _viExecCommand _viFindGpib _viGpibBusReset
 " winapi
 syn keyword autoitFunction _WinAPI_AttachConsole _WinAPI_AttachThreadInput
 	\ _WinAPI_Beep _WinAPI_BitBlt _WinAPI_CallNextHookEx _WinAPI_CallWindowProc
-	\ _WinAPI_Check _WinAPI_ClientToScreen _WinAPI_CloseHandle
-	\ _WinAPI_CombineRgn _WinAPI_CommDlgExtendedError _WinAPI_CopyIcon
-	\ _WinAPI_CreateBitmap _WinAPI_CreateCompatibleBitmap
-	\ _WinAPI_CreateCompatibleDC _WinAPI_CreateEvent _WinAPI_CreateFile
-	\ _WinAPI_CreateFont _WinAPI_CreateFontIndirect _WinAPI_CreatePen
-	\ _WinAPI_CreateProcess _WinAPI_CreateRectRgn _WinAPI_CreateRoundRectRgn
+	\ _WinAPI_ClientToScreen _WinAPI_CloseHandle _WinAPI_CombineRgn
+	\ _WinAPI_CommDlgExtendedError _WinAPI_CopyIcon _WinAPI_CreateBitmap
+	\ _WinAPI_CreateCompatibleBitmap _WinAPI_CreateCompatibleDC
+	\ _WinAPI_CreateEvent _WinAPI_CreateFile _WinAPI_CreateFont
+	\ _WinAPI_CreateFontIndirect _WinAPI_CreatePen _WinAPI_CreateProcess
+	\ _WinAPI_CreateRectRgn _WinAPI_CreateRoundRectRgn
 	\ _WinAPI_CreateSolidBitmap _WinAPI_CreateSolidBrush _WinAPI_CreateWindowEx
 	\ _WinAPI_DefWindowProc _WinAPI_DeleteDC _WinAPI_DeleteObject
 	\ _WinAPI_DestroyIcon _WinAPI_DestroyWindow _WinAPI_DrawEdge
@@ -947,8 +965,9 @@ syn keyword autoitFunction _WinAPI_AttachConsole _WinAPI_AttachThreadInput
 	\ _WinAPI_GetCurrentThreadId _WinAPI_GetCursorInfo _WinAPI_GetDC
 	\ _WinAPI_GetDesktopWindow _WinAPI_GetDeviceCaps _WinAPI_GetDIBits
 	\ _WinAPI_GetDlgCtrlID _WinAPI_GetDlgItem _WinAPI_GetFileSizeEx
-	\ _WinAPI_GetFocus _WinAPI_GetForegroundWindow _WinAPI_GetIconInfo
-	\ _WinAPI_GetLastError _WinAPI_GetLastErrorMessage _WinAPI_GetModuleHandle
+	\ _WinAPI_GetFocus _WinAPI_GetForegroundWindow _WinAPI_GetGuiResources
+	\ _WinAPI_GetIconInfo _WinAPI_GetLastError _WinAPI_GetLastErrorMessage
+	\ _WinAPI_GetLayeredWindowAttributes _WinAPI_GetModuleHandle
 	\ _WinAPI_GetMousePos _WinAPI_GetMousePosX _WinAPI_GetMousePosY
 	\ _WinAPI_GetObject _WinAPI_GetOpenFileName _WinAPI_GetOverlappedResult
 	\ _WinAPI_GetParent _WinAPI_GetProcessAffinityMask _WinAPI_GetSaveFileName
@@ -968,15 +987,17 @@ syn keyword autoitFunction _WinAPI_AttachConsole _WinAPI_AttachThreadInput
 	\ _WinAPI_MakeLong _WinAPI_MessageBeep _WinAPI_Mouse_Event _WinAPI_MoveTo
 	\ _WinAPI_MoveWindow _WinAPI_MsgBox _WinAPI_MulDiv
 	\ _WinAPI_MultiByteToWideChar _WinAPI_MultiByteToWideCharEx
-	\ _WinAPI_OpenProcess _WinAPI_PointFromRect _WinAPI_PostMessage
-	\ _WinAPI_PrimaryLangId _WinAPI_PtInRect _WinAPI_ReadFile
-	\ _WinAPI_ReadProcessMemory _WinAPI_RectIsEmpty _WinAPI_RedrawWindow
-	\ _WinAPI_RegisterWindowMessage _WinAPI_ReleaseCapture _WinAPI_ReleaseDC
-	\ _WinAPI_ScreenToClient _WinAPI_SelectObject _WinAPI_SetBkColor
-	\ _WinAPI_SetBkMode _WinAPI_SetCapture _WinAPI_SetCursor
-	\ _WinAPI_SetDefaultPrinter _WinAPI_SetDIBits _WinAPI_SetEndOfFile
-	\ _WinAPI_SetEvent _WinAPI_SetFilePointer _WinAPI_SetFocus _WinAPI_SetFont
-	\ _WinAPI_SetHandleInformation _WinAPI_SetLastError _WinAPI_SetParent
+	\ _WinAPI_OpenProcess _WinAPI_PathFindOnPath _WinAPI_PointFromRect
+	\ _WinAPI_PostMessage _WinAPI_PrimaryLangId _WinAPI_PtInRect
+	\ _WinAPI_ReadFile _WinAPI_ReadProcessMemory _WinAPI_RectIsEmpty
+	\ _WinAPI_RedrawWindow _WinAPI_RegisterWindowMessage
+	\ _WinAPI_ReleaseCapture _WinAPI_ReleaseDC _WinAPI_ScreenToClient
+	\ _WinAPI_SelectObject _WinAPI_SetBkColor _WinAPI_SetBkMode
+	\ _WinAPI_SetCapture _WinAPI_SetCursor _WinAPI_SetDefaultPrinter
+	\ _WinAPI_SetDIBits _WinAPI_SetEndOfFile _WinAPI_SetEvent
+	\ _WinAPI_SetFilePointer _WinAPI_SetFocus _WinAPI_SetFont
+	\ _WinAPI_SetHandleInformation _WinAPI_SetLastError
+	\ _WinAPI_SetLayeredWindowAttributes _WinAPI_SetParent
 	\ _WinAPI_SetProcessAffinityMask _WinAPI_SetSysColors _WinAPI_SetTextColor
 	\ _WinAPI_SetWindowLong _WinAPI_SetWindowPlacement _WinAPI_SetWindowPos
 	\ _WinAPI_SetWindowRgn _WinAPI_SetWindowsHookEx _WinAPI_SetWindowText
@@ -1043,8 +1064,6 @@ syn match autoitBuiltin "@HomePath"
 syn match autoitBuiltin "@HomeShare"
 syn match autoitBuiltin "@HOUR"
 syn match autoitBuiltin "@HotKeyPressed"
-syn match autoitBuiltin "@InetGetActive"
-syn match autoitBuiltin "@InetGetBytesRead"
 syn match autoitBuiltin "@IPAddress[1234]"
 syn match autoitBuiltin "@KBLayout"
 syn match autoitBuiltin "@LF"
